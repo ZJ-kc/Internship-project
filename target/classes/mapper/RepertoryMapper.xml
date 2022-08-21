@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.service.infra.mapper.RepertoryMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="org.hzero.service.domain.entity.Repertory">
+        <result column="repertory_id" property="repertoryId" jdbcType="DECIMAL"/>
+        <result column="material_id" property="materialId" jdbcType="DECIMAL"/>
+        <result column="store_id" property="storeId" jdbcType="DECIMAL"/>
+        <result column="repertory_number" property="repertoryNumber" jdbcType="DECIMAL"/>
+        <result column="wait_repertory_number" property="waitRepertoryNumber" jdbcType="DECIMAL"/>
+        <result column="able_repertory_number" property="ableRepertoryNumber" jdbcType="DECIMAL"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="repertoryPageResultMap" type="org.hzero.service.domain.entity.Repertory" extends="BaseResultMap">
+        <association property="store" javaType="org.hzero.service.domain.entity.Store">
+            <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
+        </association>
+        <association property="material" javaType="org.hzero.service.domain.entity.Material">
+            <result column="material_code" property="materialCode" jdbcType="VARCHAR"/>
+            <result column="material_description" property="materialDescription" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+<!--    分页查询库存信息-->
+    <select id="getRepertoryPage" resultMap="repertoryPageResultMap">
+        SELECT
+            repertory.repertory_number,
+            repertory.able_repertory_number,
+            repertory.wait_repertory_number,
+            repertory.last_update_date,
+            store.store_name,
+            material.material_code,
+            material.material_description
+        FROM
+            `hff_repertory` repertory,
+            `hff_store` store,
+            `hff_material` material
+        WHERE
+            repertory.store_id = store.store_id
+        AND repertory.material_id = material.material_id
+        <if test="null != repertoryParam.materialCode and '' != repertoryParam.materialCode">
+            AND material.material_code = #{repertoryParam.materialCode}
+        </if>
+        <if test="null != repertoryParam.materialDescription and '' != repertoryParam.materialDescription">
+            <bind name="descriptionLike" value="'%'+repertoryParam.materialDescription+'%'" />
+            AND material.material_description LIKE #{descriptionLike}
+        </if>
+        <if test="null != repertoryParam.storeId and '' != repertoryParam.storeId">
+            AND store.store_id = #{repertoryParam.storeId}
+        </if>
+    </select>
+</mapper>
