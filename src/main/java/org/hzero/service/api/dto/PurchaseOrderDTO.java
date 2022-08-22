@@ -22,7 +22,7 @@ import org.hzero.service.domain.entity.PurchaseInfo;
 public class PurchaseOrderDTO {
 
 
-    @ExcelColumn(zh = "订单编号", en = "Order Number", showInChildren = true)
+    @ExcelColumn(zh = "订单编号", en = "Order Number")
     private String purchaseOrderNumber;
 
     @ExcelColumn(zh = "供应商", en = "Supplier Name")
@@ -35,9 +35,9 @@ public class PurchaseOrderDTO {
     private String purchaseOrderState;
 
     @ExcelColumn(zh = "订单日期", en = "Order Date", pattern = BaseConstants.Pattern.DATE)
-    private LocalDateTime purchaseOrderDate;
+    private LocalDate purchaseOrderDate;
 
-    @ExcelColumn(zh = "订单详情", en = "Order details", child = true)
+    @ExcelColumn(zh = "订单详情", en = "Order details")
     private List<PurchaseInfoDTO> purchaseInfoList;
 
     public String getPurchaseOrderNumber() {
@@ -72,11 +72,11 @@ public class PurchaseOrderDTO {
         this.purchaseOrderState = purchaseOrderState;
     }
 
-    public LocalDateTime getPurchaseOrderDate() {
+    public LocalDate getPurchaseOrderDate() {
         return purchaseOrderDate;
     }
 
-    public void setPurchaseOrderDate(LocalDateTime purchaseOrderDate) {
+    public void setPurchaseOrderDate(LocalDate purchaseOrderDate) {
         this.purchaseOrderDate = purchaseOrderDate;
     }
 

@@ -62,6 +62,46 @@ public class Repertory extends AuditDomain {
     private Store store;
     @Transient
     private Material material;
+    @Transient
+    private String storeName;
+    @Transient
+    private String materialCode;
+    @Transient
+    private String materialDescription;
+    @Transient
+    private String materialUnit;
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getMaterialCode() {
+        return materialCode;
+    }
+
+    public void setMaterialCode(String materialCode) {
+        this.materialCode = materialCode;
+    }
+
+    public String getMaterialDescription() {
+        return materialDescription;
+    }
+
+    public void setMaterialDescription(String materialDescription) {
+        this.materialDescription = materialDescription;
+    }
+
+    public String getMaterialUnit() {
+        return materialUnit;
+    }
+
+    public void setMaterialUnit(String materialUnit) {
+        this.materialUnit = materialUnit;
+    }
 
     public static String getFieldRepertoryId() {
         return FIELD_REPERTORY_ID;

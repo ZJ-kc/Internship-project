@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import io.choerodon.mybatis.domain.AuditDomain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -73,9 +74,9 @@ public class SaleOrder extends AuditDomain {
     @ApiModelProperty(value = "销售订单状态：默认0未提交，1待审核，2审核通过，3审核拒绝", required = true)
     private Integer saleOrderState;
     @ApiModelProperty(value = "销售订单创建日期", required = true)
-    private LocalDateTime saleOrderDate;
+    private LocalDate saleOrderDate;
     @ApiModelProperty(value = "币种，外键", required = true)
-    private Long currencyId;
+    private String currency;
     @ApiModelProperty(value = "销售订单总金额", required = true)
     private BigDecimal saleOrderSumPrice;
     @ApiModelProperty(value = "组织id，外键", required = true)
@@ -191,11 +192,11 @@ public class SaleOrder extends AuditDomain {
     /**
      * @return 销售订单创建日期
      */
-    public LocalDateTime getSaleOrderDate() {
+    public LocalDate getSaleOrderDate() {
         return saleOrderDate;
     }
 
-    public SaleOrder setSaleOrderDate(LocalDateTime saleOrderDate) {
+    public SaleOrder setSaleOrderDate(LocalDate saleOrderDate) {
         this.saleOrderDate = saleOrderDate;
         return this;
     }
@@ -203,12 +204,12 @@ public class SaleOrder extends AuditDomain {
     /**
      * @return 币种，外键
      */
-    public Long getCurrencyId() {
-        return currencyId;
+    public String getCurrency() {
+        return currency;
     }
 
-    public SaleOrder setCurrencyId(Long currencyId) {
-        this.currencyId = currencyId;
+    public SaleOrder setCurrency(String currency) {
+        this.currency = currency;
         return this;
     }
 
@@ -256,7 +257,7 @@ public class SaleOrder extends AuditDomain {
                 ", storeId=" + storeId +
                 ", saleOrderState=" + saleOrderState +
                 ", saleOrderDate=" + saleOrderDate +
-                ", currencyId=" + currencyId +
+                ", currencyId=" + currency +
                 ", saleOrderSumPrice=" + saleOrderSumPrice +
                 ", organizationId=" + organizationId +
                 ", children=" + children +

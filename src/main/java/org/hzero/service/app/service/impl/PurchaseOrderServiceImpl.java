@@ -13,17 +13,15 @@ import org.hzero.excel.entity.Column;
 import org.hzero.excel.helper.ExcelHelper;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
-import org.hzero.service.api.dto.PurchaseInfoDTO;
 import org.hzero.service.api.dto.PurchaseOrderDTO;
 import org.hzero.service.app.service.PurchaseOrderService;
-import org.hzero.service.domain.entity.Material;
-import org.hzero.service.domain.entity.Purchase;
-import org.hzero.service.domain.entity.PurchaseInfo;
-import org.hzero.service.domain.entity.PurchaseOrder;
+import org.hzero.service.domain.entity.*;
 import org.hzero.service.domain.repository.*;
 import org.hzero.service.infra.listener.PurchaseInfoExcelListener;
 import org.hzero.service.infra.listener.PurchaseOrderExcelListener;
 import org.hzero.service.infra.mapper.PurchaseOrderMapper;
+import org.hzero.service.infra.util.PurchaseInfoImportConstantUtils;
+import org.hzero.service.infra.util.PurchaseOrderImportConstantUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.choerodon.core.domain.Page;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -51,18 +48,25 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
     private final PurchaseInfoRepository purchaseInfoRepository;
     private final MaterialRepository materialRepository;
     private final PurchaseRepository purchaseRepository;
+    private final SupplierRepository supplierRepository;
+    private final StoreRepository storeRepository;
 
     @Autowired
     public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository,
                                     PurchaseOrderMapper purchaseOrderMapper,
                                     PurchaseInfoRepository purchaseInfoRepository,
                                     RepertoryRepository repertoryRepository,
-                                    MaterialRepository materialRepository, PurchaseRepository purchaseRepository) {
+                                    MaterialRepository materialRepository,
+                                    PurchaseRepository purchaseRepository,
+                                    SupplierRepository supplierRepository,
+                                    StoreRepository storeRepository) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.purchaseOrderMapper = purchaseOrderMapper;
         this.purchaseInfoRepository = purchaseInfoRepository;
         this.materialRepository = materialRepository;
         this.purchaseRepository = purchaseRepository;
+        this.supplierRepository = supplierRepository;
+        this.storeRepository = storeRepository;
     }
 
     @Override
@@ -74,6 +78,13 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
     @Override
     public ResponseEntity<PurchaseOrder> getPurchaseOrderByOrderId(Long tenantId, Long purchaseOrderId) {
         PurchaseOrder purchaseOrder = this.purchaseOrderMapper.getPurchaseOrderByOrderId(tenantId, purchaseOrderId);
+        Supplier supplier = supplierRepository.selectByPrimaryKey(purchaseOrder.getSupplierId());
+        Purchase purchase = purchaseRepository.selectByPrimaryKey(purchaseOrder.getPurchaseId());
+        Store store = storeRepository.selectByPrimaryKey(purchaseOrder.getStoreId());
+        purchaseOrder.setPurchaseName(purchase.getPurchaseName());
+        purchaseOrder.setSupplierName(supplier.getSupplierName());
+        purchaseOrder.setStoreAddress(store.getStoreAddress());
+        purchaseOrder.setStoreName(store.getStoreName());
         return Results.success(purchaseOrder);
     }
 
@@ -128,28 +139,28 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
         List<Column> purchaseOrderNames = new ArrayList<>();
         List<Column> purchaseInfoNames = new ArrayList<>();
 
-        purchaseOrderNames.add(new Column().setIndex(0).setName("purchaseOrderNumber").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(1).setName("supplierNumber").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(2).setName("purchaseOrderDate").setColumnType(Column.STRING).setFormat("yyyy/MM/dd"));
-        purchaseOrderNames.add(new Column().setIndex(3).setName("storeName").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(4).setName("storeAddress").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(5).setName("purchaseName").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(6).setName("currencySymbol").setColumnType(Column.STRING));
-        purchaseOrderNames.add(new Column().setIndex(7).setName("purchaseOrderSumPrice").setColumnType(Column.DECIMAL));
-        purchaseOrderNames.add(new Column().setIndex(8).setName("purchaseOrderState").setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(0).setName(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_ORDER_NUMBER).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(1).setName(PurchaseOrderImportConstantUtils.FIELD_SUPPLIER_NAME).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(2).setName(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_ORDER_DATE).setColumnType(Column.DATE).setFormat("yyyy/MM/dd"));
+        purchaseOrderNames.add(new Column().setIndex(3).setName(PurchaseOrderImportConstantUtils.FIELD_STORE_NAME).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(4).setName(PurchaseOrderImportConstantUtils.FIELD_STORE_ADDRESS).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(5).setName(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_NAME).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(6).setName(PurchaseOrderImportConstantUtils.FIELD_CURRENCY_SYMBOL).setColumnType(Column.STRING));
+        purchaseOrderNames.add(new Column().setIndex(7).setName(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_ORDER_SUM_PRICE).setColumnType(Column.DECIMAL));
+        purchaseOrderNames.add(new Column().setIndex(8).setName(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_ORDER_STATE).setColumnType(Column.STRING));
 
-        purchaseInfoNames.add(new Column().setIndex(0).setName("purchaseOrderNumber").setColumnType(Column.STRING));
-        purchaseInfoNames.add(new Column().setIndex(1).setName("purchaseInfoLineNumber").setColumnType(Column.LONG));
-        purchaseInfoNames.add(new Column().setIndex(2).setName("materialCode").setColumnType(Column.STRING));
-        purchaseInfoNames.add(new Column().setIndex(3).setName("materialPrice").setColumnType(Column.DECIMAL));
-        purchaseInfoNames.add(new Column().setIndex(4).setName("materialUnit").setColumnType(Column.STRING));
-        purchaseInfoNames.add(new Column().setIndex(5).setName("purchaseNumber").setColumnType(Column.LONG));
-        purchaseInfoNames.add(new Column().setIndex(6).setName("purchaseInfoSumPrice").setColumnType(Column.DECIMAL));
-        purchaseInfoNames.add(new Column().setIndex(7).setName("storageState").setColumnType(Column.STRING));
-        purchaseInfoNames.add(new Column().setIndex(8).setName("purchaseInfoRemark").setColumnType(Column.STRING));
+        purchaseInfoNames.add(new Column().setIndex(0).setName(PurchaseInfoImportConstantUtils.FIELD_PURCHASE_ORDER_NUMBER).setColumnType(Column.STRING));
+        purchaseInfoNames.add(new Column().setIndex(1).setName(PurchaseInfoImportConstantUtils.FIELD_PURCHASE_INFO_LINE_NUMBER).setColumnType(Column.LONG));
+        purchaseInfoNames.add(new Column().setIndex(2).setName(PurchaseInfoImportConstantUtils.FIELD_MATERIAL_CODE).setColumnType(Column.STRING));
+        purchaseInfoNames.add(new Column().setIndex(3).setName(PurchaseInfoImportConstantUtils.FIELD_MATERIAL_PRICE).setColumnType(Column.DECIMAL));
+        purchaseInfoNames.add(new Column().setIndex(4).setName(PurchaseInfoImportConstantUtils.FIELD_MATERIAL_UNIT).setColumnType(Column.STRING));
+        purchaseInfoNames.add(new Column().setIndex(5).setName(PurchaseInfoImportConstantUtils.FIELD_PURCHASE_NUMBER).setColumnType(Column.LONG));
+        purchaseInfoNames.add(new Column().setIndex(6).setName(PurchaseInfoImportConstantUtils.FIELD_PURCHASE_INFO_SUM_PRICE).setColumnType(Column.DECIMAL));
+        purchaseInfoNames.add(new Column().setIndex(7).setName(PurchaseInfoImportConstantUtils.FIELD_STORE_STATE).setColumnType(Column.STRING));
+        purchaseInfoNames.add(new Column().setIndex(8).setName(PurchaseInfoImportConstantUtils.FIELD_PURCHASE_INFO_REMARK).setColumnType(Column.STRING));
         try {
-            ExcelHelper.read(file.getInputStream(), new PurchaseOrderExcelListener(purchaseOrderRepository), purchaseOrderNames, 0, 1);
-            ExcelHelper.read(file.getInputStream(), new PurchaseInfoExcelListener(), purchaseInfoNames, 1, 1);
+            ExcelHelper.read(file.getInputStream(), new PurchaseOrderExcelListener(purchaseOrderRepository, supplierRepository, storeRepository, purchaseRepository), purchaseOrderNames, 0, 1);
+            ExcelHelper.read(file.getInputStream(), new PurchaseInfoExcelListener(materialRepository, purchaseInfoRepository, purchaseOrderRepository), purchaseInfoNames, 1, 1);
         } catch (IOException e) {
             logger.error("PurchaseOrderServiceImpl ----->{}", e.getMessage());
         }

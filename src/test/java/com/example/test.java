@@ -3,6 +3,7 @@ package com.example;
 import javax.annotation.Resource;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -42,12 +43,12 @@ public class test {
         purchaseOrder.setPurchaseOrderNumber("sLSDKJFLDS").setStoreAddress("a")
                 .setOrganizationId(1L)
                 .setSupplierId(1L)
-                .setCurrencyId(1L)
+//                .setCurrency()
 
                 .setPurchaseId(1L)
                 .setPurchaseOrderState(0)
                 .setPurchaseOrderSumPrice(new BigDecimal("1.23"))
-                .setPurchaseOrderDate(LocalDateTime.now());
+                .setPurchaseOrderDate(LocalDate.now());
 //        purchaseOrderRepository.insert(purchaseOrder);
         purchaseOrderRepository.insertSelective(purchaseOrder);
         System.out.println(purchaseOrder.getPurchaseOrderId());

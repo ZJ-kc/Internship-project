@@ -8,7 +8,7 @@ package org.hzero.service.infra.util;
  */
 public class PurchaseOrderImportConstantUtils {
     public static final String FIELD_PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
-    public static final String FIELD_SUPPLIER_NAME = "supplierNumber";
+    public static final String FIELD_SUPPLIER_NAME = "supplierName";
     public static final String FIELD_PURCHASE_ORDER_DATE = "purchaseOrderDate";
     public static final String FIELD_STORE_NAME = "storeName";
     public static final String FIELD_STORE_ADDRESS = "storeAddress";

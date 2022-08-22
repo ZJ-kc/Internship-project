@@ -45,7 +45,14 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
     public List<PurchaseOrder> getPurchaseOrderPage(Long tenantId, PurchaseOrder purchaseOrder, LocalDate startDate,
                                                     LocalDate endDate) {
 
-        return this.purchaseOrderMapper.getPurchaseOrderPage(tenantId, purchaseOrder, startDate, endDate);
+        List<PurchaseOrder> purchaseOrderPage = this.purchaseOrderMapper.getPurchaseOrderPage(tenantId, purchaseOrder, startDate, endDate);
+        for(PurchaseOrder order: purchaseOrderPage) {
+            Supplier supplier = supplierRepository.selectByPrimaryKey(order.getSupplierId());
+            Purchase purchase = purchaseRepository.selectByPrimaryKey(order.getPurchaseId());
+            order.setPurchaseName(purchase.getPurchaseName());
+            order.setSupplierName(supplier.getSupplierName());
+        }
+        return purchaseOrderPage;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
             purchaseOrder1.setStoreId(purchaseOrder.getStoreId());
             purchaseOrder1.setStoreAddress(purchaseOrder.getStoreAddress());
             purchaseOrder1.setPurchaseId(purchaseOrder.getPurchaseId());
-            purchaseOrder1.setCurrencyId(purchaseOrder.getCurrencyId());
+            purchaseOrder1.setCurrency(purchaseOrder.getCurrency());
 
             this.updateByPrimaryKey(purchaseOrder1);
 
@@ -69,7 +76,7 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
                                     .andEqualTo("purchaseOrderId", purchaseOrder.getPurchaseOrderId()))
                             .build()));
         } else {
-            purchaseOrder.setPurchaseOrderDate(LocalDateTime.now());
+            purchaseOrder.setPurchaseOrderDate(LocalDate.now());
             purchaseOrder.setOrganizationId(tenantId);
             this.insertSelective(purchaseOrder);
         }

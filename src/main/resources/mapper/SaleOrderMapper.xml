@@ -3,22 +3,22 @@
 <mapper namespace="org.hzero.service.infra.mapper.SaleOrderMapper">
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="org.hzero.service.domain.entity.SaleOrder">
-                    <result column="sale_order_id" property="saleOrderId" jdbcType="DECIMAL"/>
-                    <result column="sale_order_number" property="saleOrderNumber" jdbcType="VARCHAR"/>
-                    <result column="sale_id" property="saleId" jdbcType="DECIMAL"/>
-                    <result column="company_id" property="companyId" jdbcType="DECIMAL"/>
-                    <result column="client_id" property="clientId" jdbcType="DECIMAL"/>
-                    <result column="sale_address" property="saleAddress" jdbcType="VARCHAR"/>
-                    <result column="store_id" property="storeId" jdbcType="DECIMAL"/>
-                    <result column="sale_order_state" property="saleOrderState" jdbcType="DECIMAL"/>
-                    <result column="sale_order_date" property="saleOrderDate" jdbcType="DATE"/>
-                    <result column="currency_id" property="currencyId" jdbcType="DECIMAL"/>
-                    <result column="sale_order_sum_price" property="saleOrderSumPrice" jdbcType="DECIMAL"/>
-                    <result column="organization_id" property="organizationId" jdbcType="DECIMAL"/>
-                    <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
-                    <result column="creation_date" property="creationDate" jdbcType="DATE"/>
-                    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
-                    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
-                    <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
-            </resultMap>
+        <result column="sale_order_id" property="saleOrderId" jdbcType="DECIMAL"/>
+        <result column="sale_order_number" property="saleOrderNumber" jdbcType="VARCHAR"/>
+        <result column="sale_id" property="saleId" jdbcType="DECIMAL"/>
+        <result column="company_id" property="companyId" jdbcType="DECIMAL"/>
+        <result column="client_id" property="clientId" jdbcType="DECIMAL"/>
+        <result column="sale_address" property="saleAddress" jdbcType="VARCHAR"/>
+        <result column="store_id" property="storeId" jdbcType="DECIMAL"/>
+        <result column="sale_order_state" property="saleOrderState" jdbcType="DECIMAL"/>
+        <result column="sale_order_date" property="saleOrderDate" jdbcType="DATE"/>
+        <result column="currency" property="currency" jdbcType="DECIMAL"/>
+        <result column="sale_order_sum_price" property="saleOrderSumPrice" jdbcType="DECIMAL"/>
+        <result column="organization_id" property="organizationId" jdbcType="DECIMAL"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+    </resultMap>
 </mapper>

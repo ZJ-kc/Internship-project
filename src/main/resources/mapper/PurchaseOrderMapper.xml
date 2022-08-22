@@ -9,7 +9,7 @@
         <result column="store_id" property="storeId" jdbcType="DECIMAL"/>
         <result column="store_address" property="storeAddress" jdbcType="VARCHAR"/>
         <result column="purchase_id" property="purchaseId" jdbcType="DECIMAL"/>
-        <result column="currency_id" property="currencyId" jdbcType="DECIMAL"/>
+        <result column="currency" property="currency" jdbcType="CHAR"/>
         <result column="organization_id" property="organizationId" jdbcType="DECIMAL"/>
         <result column="purchase_order_sum_price" property="purchaseOrderSumPrice" jdbcType="DECIMAL"/>
         <result column="purchase_order_state" property="purchaseOrderState" jdbcType="DECIMAL"/>
@@ -73,7 +73,7 @@
             pur_order.supplier_id,
             pur_order.purchase_order_date,
             pur_order.purchase_id,
-            pur_order.currency_id,
+            pur_order.currency,
             pur_order.purchase_order_sum_price,
             pur_order.purchase_order_state
         FROM
@@ -98,11 +98,12 @@
     <select id="getPurchaseOrderByOrderId" resultType="org.hzero.service.domain.entity.PurchaseOrder">
         SELECT
             pur_order.purchase_order_id,
+            pur_order.store_id,
             pur_order.purchase_order_number,
             pur_order.supplier_id,
             pur_order.purchase_order_date,
             pur_order.purchase_id,
-            pur_order.currency_id,
+            pur_order.currency,
             pur_order.purchase_order_sum_price,
             pur_order.purchase_order_state
         FROM

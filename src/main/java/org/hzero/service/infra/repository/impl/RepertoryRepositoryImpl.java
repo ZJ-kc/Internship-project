@@ -62,6 +62,13 @@ public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> imple
 
     @Override
     public List<Repertory> getRepertoryPage(RepertoryParam repertoryParam) {
-        return repertoryMapper.getRepertoryPage(repertoryParam);
+        List<Repertory> repertoryPage = repertoryMapper.getRepertoryPage(repertoryParam);
+        for(Repertory repertory: repertoryPage) {
+            repertory.setStoreName(repertory.getStore().getStoreName());
+            repertory.setMaterialCode(repertory.getMaterial().getMaterialCode());
+            repertory.setMaterialDescription(repertory.getMaterial().getMaterialDescription());
+            repertory.setMaterialUnit(repertory.getMaterial().getMaterialUnit());
+        }
+        return repertoryPage;
     }
 }

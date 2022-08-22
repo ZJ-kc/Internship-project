@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import io.choerodon.mybatis.domain.AuditDomain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,7 @@ public class PurchaseOrder extends AuditDomain {
     public static final String FIELD_STORE_ID = "storeId";
     public static final String FIELD_STORE_ADDRESS = "storeAddress";
     public static final String FIELD_PURCHASE_ID = "purchaseId";
-    public static final String FIELD_CURRENCY_ID = "currencyId";
+    public static final String FIELD_CURRENCY = "currency";
     public static final String FIELD_ORGANIZATION_ID = "organizationId";
     public static final String FIELD_PURCHASE_ORDER_SUM_PRICE = "purchaseOrderSumPrice";
     public static final String FIELD_PURCHASE_ORDER_STATE = "purchaseOrderState";
@@ -75,7 +76,7 @@ public class PurchaseOrder extends AuditDomain {
     private Long purchaseId;
 
     @ApiModelProperty(value = "币种，外键", required = true)
-    private Long currencyId;
+    private String currency;
 
     @ApiModelProperty(value = "组织id，外键", required = true)
     private Long organizationId;
@@ -87,10 +88,19 @@ public class PurchaseOrder extends AuditDomain {
         private Integer purchaseOrderState;
 
     @ApiModelProperty(value = "采购订单创建日期", required = true)
-    private LocalDateTime purchaseOrderDate;
+    private LocalDate purchaseOrderDate;
 
     @Transient
     private List<PurchaseInfo> children;
+
+    @Transient
+    private String purchaseName;
+
+    @Transient
+    private String supplierName;
+
+    @Transient
+    private String storeName;
 
 //
 // 非数据库字段
@@ -175,12 +185,12 @@ public class PurchaseOrder extends AuditDomain {
     /**
      * @return 币种，外键
      */
-    public Long getCurrencyId() {
-        return currencyId;
+    public String getCurrency() {
+        return currency;
     }
 
-    public PurchaseOrder setCurrencyId(Long currencyId) {
-        this.currencyId = currencyId;
+    public PurchaseOrder setCurrency(String currency) {
+        this.currency = currency;
         return this;
     }
 
@@ -223,11 +233,11 @@ public class PurchaseOrder extends AuditDomain {
     /**
      * @return 采购订单创建日期
      */
-    public LocalDateTime getPurchaseOrderDate() {
+    public LocalDate getPurchaseOrderDate() {
         return purchaseOrderDate;
     }
 
-    public void setPurchaseOrderDate(LocalDateTime purchaseOrderDate) {
+    public void setPurchaseOrderDate(LocalDate purchaseOrderDate) {
         this.purchaseOrderDate = purchaseOrderDate;
     }
 
@@ -239,6 +249,30 @@ public class PurchaseOrder extends AuditDomain {
         this.children = children;
     }
 
+    public String getPurchaseName() {
+        return purchaseName;
+    }
+
+    public void setPurchaseName(String purchaseName) {
+        this.purchaseName = purchaseName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
     @Override
     public String toString() {
         return "PurchaseOrder{" +
@@ -248,7 +282,7 @@ public class PurchaseOrder extends AuditDomain {
                 ", storeId=" + storeId +
                 ", storeAddress='" + storeAddress + '\'' +
                 ", purchaseId=" + purchaseId +
-                ", currencyId=" + currencyId +
+                ", currencyId=" + currency +
                 ", organizationId=" + organizationId +
                 ", purchaseOrderSumPrice=" + purchaseOrderSumPrice +
                 ", purchaseOrderState=" + purchaseOrderState +

@@ -35,6 +35,4 @@ public class SaleOrderController extends BaseController {
     public SaleOrderController(SaleOrderService saleOrderService) {
         this.saleOrderService = saleOrderService;
     }
-
-
 }
