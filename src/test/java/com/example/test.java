@@ -4,8 +4,10 @@ import javax.annotation.Resource;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.HffServiceApplication;
@@ -59,5 +61,20 @@ public class test {
                 )
                 .build());
 //        purchaseInfoRepository.batchDelete();
+    }
+
+    @Test
+    public void test2() {
+        Integer[] purchaseOrderIds = new Integer[2];
+        purchaseOrderIds[0] = 1;
+        purchaseOrderIds[1] = 2;
+//        purchaseOrderIds[1] = 1;
+        String ids = StringUtils.join(purchaseOrderIds, ",").toString();
+//        for(int i =0; i< purchaseOrderIds.length;i++) {
+//
+//        }
+        System.out.println(ids);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.selectByIds(ids);
+        System.out.println(purchaseOrderList);
     }
 }

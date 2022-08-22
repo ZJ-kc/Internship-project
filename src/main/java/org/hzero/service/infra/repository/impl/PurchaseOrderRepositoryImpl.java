@@ -2,19 +2,19 @@ package org.hzero.service.infra.repository.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hzero.core.util.Results;
+import org.apache.commons.lang.StringUtils;
 import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
-import org.hzero.service.domain.entity.PurchaseInfo;
-import org.hzero.service.domain.entity.PurchaseOrder;
-import org.hzero.service.domain.repository.PurchaseInfoRepository;
-import org.hzero.service.domain.repository.PurchaseOrderRepository;
+import org.hzero.service.api.dto.PurchaseInfoDTO;
+import org.hzero.service.api.dto.PurchaseOrderDTO;
+import org.hzero.service.domain.entity.*;
+import org.hzero.service.domain.repository.*;
 import org.hzero.service.infra.mapper.PurchaseOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,11 +27,18 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
 
     private final PurchaseOrderMapper purchaseOrderMapper;
     private final PurchaseInfoRepository purchaseInfoRepository;
+    private final MaterialRepository materialRepository;
+    private final PurchaseRepository purchaseRepository;
+    private final SupplierRepository supplierRepository;
 
     @Autowired
-    public PurchaseOrderRepositoryImpl(PurchaseOrderMapper purchaseOrderMapper, PurchaseInfoRepository purchaseInfoRepository) {
+    public PurchaseOrderRepositoryImpl(PurchaseOrderMapper purchaseOrderMapper,
+                                       PurchaseInfoRepository purchaseInfoRepository, MaterialRepository materialRepository, PurchaseRepository purchaseRepository, SupplierRepository supplierRepository) {
         this.purchaseOrderMapper = purchaseOrderMapper;
         this.purchaseInfoRepository = purchaseInfoRepository;
+        this.materialRepository = materialRepository;
+        this.purchaseRepository = purchaseRepository;
+        this.supplierRepository = supplierRepository;
     }
 
     @Override
@@ -72,5 +79,47 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
                 purchaseInfoRepository.insertSelective(purchaseInfo);
             }
         }
+    }
+
+    @Override
+    public List<PurchaseOrderDTO> exportPurchaseOrder(Integer[] purchaseOrderIds) {
+        List<PurchaseOrderDTO> purchaseOrderDTOList = new ArrayList<>();
+
+        String ids = StringUtils.join(purchaseOrderIds, ",");
+        List<PurchaseOrder> purchaseOrderList = this.selectByIds(ids);
+        for(PurchaseOrder order: purchaseOrderList) {
+            PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
+            List<PurchaseInfoDTO> purchaseInfoDTOList = new ArrayList<>();
+
+            List<PurchaseInfo> details = purchaseInfoRepository.select("purchaseOrderId", order.getPurchaseOrderId());
+            for(PurchaseInfo detail: details) {
+                PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO();
+
+                Material material = materialRepository.select(Material.FIELD_MATERIAL_ID, detail.getMaterialId()).get(0);
+
+                purchaseInfoDTO.setMaterialCode(material.getMaterialCode());
+                purchaseInfoDTO.setMaterialPrice(material.getMaterialPrice());
+                purchaseInfoDTO.setPurchaseInfoRemark(detail.getPurchaseInfoRemark());
+                purchaseInfoDTO.setPurchaseInfoSumPrice(detail.getPurchaseInfoSumPrice());
+                purchaseInfoDTO.setPurchaseLineNumber(detail.getPurchaseLineNumber());
+                purchaseInfoDTO.setPurchaseNumber(detail.getPurchaseNumber());
+
+                purchaseInfoDTOList.add(purchaseInfoDTO);
+            }
+
+            Purchase purchase = purchaseRepository.select(Purchase.FIELD_PURCHASE_ID, order.getPurchaseId()).get(0);
+            Supplier supplier = supplierRepository.select(Supplier.FIELD_SUPPLIER_ID, order.getSupplierId()).get(0);
+
+            purchaseOrderDTO.setPurchaseName(purchase.getPurchaseName());
+            purchaseOrderDTO.setPurchaseOrderNumber(order.getPurchaseOrderNumber());
+            purchaseOrderDTO.setSupplierName(supplier.getSupplierName());
+            purchaseOrderDTO.setPurchaseOrderDate(order.getPurchaseOrderDate());
+            purchaseOrderDTO.setPurchaseInfoList(purchaseInfoDTOList);
+            purchaseOrderDTO.setPurchaseOrderState(order.getPurchaseOrderState() == 0 ? "未提交":"已提交");
+
+            purchaseOrderDTOList.add(purchaseOrderDTO);
+        }
+        System.out.println(purchaseOrderDTOList);
+        return purchaseOrderDTOList;
     }
 }

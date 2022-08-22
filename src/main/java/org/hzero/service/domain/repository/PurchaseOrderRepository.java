@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.hzero.mybatis.base.BaseRepository;
+import org.hzero.service.api.dto.PurchaseOrderDTO;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import org.springframework.http.ResponseEntity;
 
@@ -31,4 +32,11 @@ public interface PurchaseOrderRepository extends BaseRepository<PurchaseOrder> {
      * @return
      */
     void addPurchaseOrder(Long tenantId, PurchaseOrder purchaseOrder);
+
+    /**
+     * 导出采购订单
+     * @param purchaseOrderIds
+     * @return
+     */
+    List<PurchaseOrderDTO> exportPurchaseOrder(Integer[] purchaseOrderIds);
 }

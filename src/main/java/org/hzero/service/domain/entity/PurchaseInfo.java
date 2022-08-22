@@ -60,12 +60,16 @@ public class PurchaseInfo extends AuditDomain {
 
     @ApiModelProperty(value = "物料id，外键", required = true)
     private Long materialId;
+
     @ApiModelProperty(value = "采购数量", required = true)
     private Long purchaseNumber;
+
     @ApiModelProperty(value = "此采购详情总金额", required = true)
     private BigDecimal purchaseInfoSumPrice;
+
     @ApiModelProperty(value = "入库状态，默认0未入库，1已入库", required = true)
     private Integer storageState;
+
     @ApiModelProperty(value = "此采购详情备注", required = true)
     private String purchaseInfoRemark;
 

@@ -55,7 +55,7 @@ public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> imple
                 repertory.setAbleRepertoryNumber(repertory.getAbleRepertoryNumber()+purchaseInfo.getPurchaseNumber());
                 repertory.setRepertoryNumber(repertory.getAbleRepertoryNumber()+repertory.getWaitRepertoryNumber());
 
-                repertoryMapper.updateOptional(repertory, Repertory.FIELD_REPERTORY_NUMBER);
+                repertoryMapper.updateOptional(repertory, Repertory.FIELD_REPERTORY_NUMBER,Repertory.FIELD_ABLE_REPERTORY_NUMBER);
             }
         }
     }
