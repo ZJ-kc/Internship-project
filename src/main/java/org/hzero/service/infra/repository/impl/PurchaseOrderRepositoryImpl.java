@@ -91,9 +91,14 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
     @Override
     public List<PurchaseOrderDTO> exportPurchaseOrder(Integer[] purchaseOrderIds) {
         List<PurchaseOrderDTO> purchaseOrderDTOList = new ArrayList<>();
+        List<PurchaseOrder> purchaseOrderList;
 
         String ids = StringUtils.join(purchaseOrderIds, ",");
-        List<PurchaseOrder> purchaseOrderList = this.selectByIds(ids);
+        if(null == purchaseOrderIds || 0 == purchaseOrderIds.length) {
+            purchaseOrderList = this.selectAll();
+        } else {
+            purchaseOrderList = this.selectByIds(ids);
+        }
         for(PurchaseOrder order: purchaseOrderList) {
             PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
             List<PurchaseInfoDTO> purchaseInfoDTOList = new ArrayList<>();

@@ -1,24 +1,18 @@
 package org.hzero.service.api.controller.v1;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
-import org.hzero.excel.helper.ExcelHelper;
 import org.hzero.export.annotation.ExcelExport;
 import org.hzero.export.vo.ExportParam;
 import org.hzero.service.api.dto.PurchaseOrderDTO;
 import org.hzero.service.app.service.PurchaseOrderService;
 import org.hzero.service.config.SwaggerApiConfig;
-import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
-import org.hzero.service.infra.listener.PurchaseOrderExcelListener;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -94,17 +88,34 @@ public class PurchaseOrderController extends BaseController {
         return purchaseOrderService.deletePurchaseOrder(organizationId, purchaseOrderId);
     }
 
-    // TODO 导出失败
     @ApiOperation(value = "导出采购订单")
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
-    @GetMapping("/export")
+//    @GetMapping(value = "/export", produces = "application/octet-stream")
+    @GetMapping(value = "/export")
     @ExcelExport(PurchaseOrderDTO.class)
-    public ResponseEntity<List<PurchaseOrderDTO>> export(Integer[] purchaseOrderIds, ExportParam exportParam,
-                                                         HttpServletResponse response) {
-        if(null == purchaseOrderIds) {
-            return Results.error();
-        }
-        return Results.success(purchaseOrderService.exportPurchaseOrder(purchaseOrderIds));
+    public ResponseEntity<List<PurchaseOrderDTO>> export(Integer[] purchaseOrderIds,ExportParam exportParam, HttpServletResponse response) {
+//        response.setHeader("content-type","application/octet-stream");
+        List<PurchaseOrderDTO> orderList = purchaseOrderService.exportPurchaseOrder(purchaseOrderIds);
+        return Results.success(orderList);
+//        ExportParams params = new ExportParams("采购订单表","采购订单表", ExcelType.HSSF);
+//        Workbook workbook = ExcelExportUtil.exportExcel(params, PurchaseOrderDTO.class, orderList);
+//        ServletOutputStream outputStream = null;
+//        try {
+//            response.setHeader("content-type","application/octet-stream");
+//            response.setHeader("content-disposition","attachment;filename=" + URLEncoder.encode("采购订单表.xls","UTF-8"));
+//            outputStream = response.getOutputStream();
+//            workbook.write(outputStream);
+//        } catch (Exception e){
+////            logger.error("EmployeeController===============>{}",e.getMessage());
+//        } finally {
+//            if(null!=outputStream) {
+//                try {
+//                    outputStream.close();
+//                } catch (Exception e){
+////                    logger.error("EmployeeController===============>{}",e.getMessage());
+//                }
+//            }
+//        }
     }
 
     @ApiOperation(value = "导入采购订单")
