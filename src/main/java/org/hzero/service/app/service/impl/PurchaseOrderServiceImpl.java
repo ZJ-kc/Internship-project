@@ -120,7 +120,7 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
         purchaseInfoRepository.batchDelete(purchaseInfoRepository
                 .selectByCondition(Condition.builder(PurchaseInfo.class)
                         .andWhere(Sqls.custom()
-                                .andEqualTo("purchaseOrderId", purchaseOrderId))
+                                .andEqualTo(PurchaseOrder.FIELD_PURCHASE_ORDER_ID, purchaseOrderId))
                         .build()));
         int count = purchaseOrderRepository.deleteByPrimaryKey(purchaseOrderId);
         if(1 == count) {
