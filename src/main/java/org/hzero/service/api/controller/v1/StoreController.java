@@ -1,12 +1,14 @@
 package org.hzero.service.api.controller.v1;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.StoreService;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import org.hzero.service.domain.entity.Store;
+import org.hzero.service.domain.entity.Supplier;
 import org.hzero.service.domain.vo.RepertoryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +40,10 @@ public class StoreController extends BaseController {
     }
 
 
-
+    @ApiOperation(value = "查询所有仓库")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Store>> list() {
+        return storeService.list();
+    }
 }

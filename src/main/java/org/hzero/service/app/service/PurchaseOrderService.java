@@ -1,8 +1,12 @@
 package org.hzero.service.app.service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.itextpdf.text.DocumentException;
 import org.hzero.service.api.dto.PurchaseOrderDTO;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
@@ -76,4 +80,12 @@ public interface PurchaseOrderService {
      * @return
      */
     ResponseEntity<?> importPurchaseOrder(MultipartFile file);
+
+    /**
+     * 打印采购订单
+     * @param organizationId
+     * @param purchaseOrderId
+     */
+    void exportPurchasePdf(Long organizationId, Long purchaseOrderId, HttpServletResponse response) throws IOException, DocumentException;
+
 }

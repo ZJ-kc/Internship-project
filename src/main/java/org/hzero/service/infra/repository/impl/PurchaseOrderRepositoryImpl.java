@@ -61,11 +61,13 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
             // 更新订单信息
             PurchaseOrder purchaseOrder1 = this
                     .selectByPrimaryKey(purchaseOrder.getPurchaseOrderId());
-            purchaseOrder1.setSupplierId(purchaseOrder.getSupplierId());
-            purchaseOrder1.setStoreId(purchaseOrder.getStoreId());
-            purchaseOrder1.setStoreAddress(purchaseOrder.getStoreAddress());
-            purchaseOrder1.setPurchaseId(purchaseOrder.getPurchaseId());
-            purchaseOrder1.setCurrency(purchaseOrder.getCurrency());
+            if(null != purchaseOrder.getStoreId()) {
+                purchaseOrder1.setStoreId(purchaseOrder.getStoreId());
+            }
+
+            if(null != purchaseOrder.getPurchaseId()) {
+                purchaseOrder1.setPurchaseId(purchaseOrder.getPurchaseId());
+            }
 
             this.updateByPrimaryKey(purchaseOrder1);
 

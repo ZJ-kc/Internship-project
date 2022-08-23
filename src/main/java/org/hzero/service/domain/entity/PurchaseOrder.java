@@ -94,6 +94,9 @@ public class PurchaseOrder extends AuditDomain {
     private List<PurchaseInfo> children;
 
     @Transient
+    private Store store;
+
+    @Transient
     private String purchaseName;
 
     @Transient
@@ -120,6 +123,14 @@ public class PurchaseOrder extends AuditDomain {
     public PurchaseOrder setPurchaseOrderId(Long purchaseOrderId) {
         this.purchaseOrderId = purchaseOrderId;
         return this;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     /**

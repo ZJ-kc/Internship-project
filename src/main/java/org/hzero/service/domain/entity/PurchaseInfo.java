@@ -83,6 +83,17 @@ public class PurchaseInfo extends AuditDomain {
     @Transient
     private String materialUnit;
 
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    @Transient
+    private Material material;
+
 //
 // 非数据库字段
 // ------------------------------------------------------------------------------

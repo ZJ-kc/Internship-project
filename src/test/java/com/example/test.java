@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,5 +78,20 @@ public class test {
         System.out.println(ids);
         List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.selectByIds(ids);
         System.out.println(purchaseOrderList);
+    }
+
+    @Test
+    public void test3() {
+        LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime today_end = LocalDateTime.of(LocalDate.now().plusDays(1L), LocalTime.MIN);
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.selectByCondition(
+                Condition.builder(PurchaseOrder.class).andWhere(
+                        Sqls.custom()
+                                .andEqualTo(PurchaseOrder.FIELD_PURCHASE_ORDER_STATE, 2)
+                                .andBetween(PurchaseOrder.FIELD_PURCHASE_ORDER_DATE, today_start, today_end)
+                ).build()
+        );
+
+        System.out.println(purchaseOrders);
     }
 }

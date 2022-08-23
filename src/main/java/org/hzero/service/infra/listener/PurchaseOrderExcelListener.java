@@ -55,6 +55,7 @@ public class PurchaseOrderExcelListener implements ExcelReadListener {
         System.out.println(entries);
         Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
         PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setOrganizationId(355L);
         while (iterator.hasNext()) {
             Map.Entry<String, Object> entry = iterator.next();
             String key = entry.getKey();

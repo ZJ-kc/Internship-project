@@ -36,5 +36,4 @@ public class CompanyController extends BaseController {
         this.companyService = companyService;
     }
 
-
 }

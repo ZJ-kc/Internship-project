@@ -49,6 +49,7 @@ public class PurchaseInfoServiceImpl extends BaseAppService implements PurchaseI
             purchaseInfo.setMaterialDescription(material.getMaterialDescription());
             purchaseInfo.setMaterialPrice(material.getMaterialPrice());
             purchaseInfo.setMaterialUnit(material.getMaterialUnit());
+            purchaseInfo.setMaterial(material);
         }
         return Results.success(purchaseInfoList);
     }
