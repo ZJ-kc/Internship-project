@@ -49,8 +49,8 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
         for(PurchaseOrder order: purchaseOrderPage) {
             Supplier supplier = supplierRepository.selectByPrimaryKey(order.getSupplierId());
             Purchase purchase = purchaseRepository.selectByPrimaryKey(order.getPurchaseId());
-            order.setPurchaseName(purchase.getPurchaseName());
-            order.setSupplierName(supplier.getSupplierName());
+            order.setSupplier(supplier);
+            order.setPurchase(purchase);
         }
         return purchaseOrderPage;
     }

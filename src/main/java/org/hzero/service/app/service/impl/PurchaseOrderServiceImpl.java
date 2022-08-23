@@ -93,11 +93,10 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
         Supplier supplier = supplierRepository.selectByPrimaryKey(purchaseOrder.getSupplierId());
         Purchase purchase = purchaseRepository.selectByPrimaryKey(purchaseOrder.getPurchaseId());
         Store store = storeRepository.selectByPrimaryKey(purchaseOrder.getStoreId());
-        purchaseOrder.setPurchaseName(purchase.getPurchaseName());
-        purchaseOrder.setSupplierName(supplier.getSupplierName());
         purchaseOrder.setStoreAddress(store.getStoreAddress());
-        purchaseOrder.setStoreName(store.getStoreName());
         purchaseOrder.setStore(store);
+        purchaseOrder.setSupplier(supplier);
+        purchaseOrder.setPurchase(purchase);
         return Results.success(purchaseOrder);
     }
 
@@ -226,7 +225,7 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
 
         // 基本信息第一行
         PdfPCell cell11 = new PdfPCell(new Paragraph("采购单号：  " + purchaseOrder.getPurchaseOrderNumber(), normalFont));
-        PdfPCell cell12 = new PdfPCell(new Paragraph("供应商：  " + purchaseOrder.getSupplierName(), normalFont));
+        PdfPCell cell12 = new PdfPCell(new Paragraph("供应商：  " + purchaseOrder.getSupplier().getSupplierName(), normalFont));
         PdfPCell cell13 = new PdfPCell(new Paragraph("订单日期：  "+ purchaseOrder.getPurchaseOrderDate(), normalFont));
         //设置单元格边框为0
         cell11.setBorder(0);
@@ -237,9 +236,9 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
         table1.addCell(cell13);
         document.add(table1);
 
-        PdfPCell cell21 = new PdfPCell(new Paragraph("收货仓库：  " + purchaseOrder.getStoreName(), normalFont));
+        PdfPCell cell21 = new PdfPCell(new Paragraph("收货仓库：  " + purchaseOrder.getStore().getStoreName(), normalFont));
         PdfPCell cell22 = new PdfPCell(new Paragraph("收货地址：  " + purchaseOrder.getStoreAddress(), normalFont));
-        PdfPCell cell23 = new PdfPCell(new Paragraph("采购员：  "+ purchaseOrder.getPurchaseName(), normalFont));
+        PdfPCell cell23 = new PdfPCell(new Paragraph("采购员：  "+ purchaseOrder.getPurchase().getPurchaseName(), normalFont));
         //设置单元格边框为0
         cell21.setBorder(0);
         cell22.setBorder(0);

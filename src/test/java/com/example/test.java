@@ -6,17 +6,25 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.HffServiceApplication;
+import org.hzero.service.api.dto.BackLogDTO;
+import org.hzero.service.api.dto.BestSaleDTO;
+import org.hzero.service.api.dto.MoneyBoardDTO;
+import org.hzero.service.api.dto.PurchaseAndSaleStateDTO;
+import org.hzero.service.app.service.PurchaseAndSaleService;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import org.hzero.service.domain.repository.PurchaseInfoRepository;
 import org.hzero.service.domain.repository.PurchaseOrderRepository;
+import org.hzero.service.infra.util.PriceComputeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -92,6 +100,46 @@ public class test {
                 ).build()
         );
 
+        BigDecimal bigDecimal = PriceComputeUtils.computePurchaseOrderPrice(purchaseOrders);
+        System.out.println(bigDecimal);
+
         System.out.println(purchaseOrders);
     }
+
+    @Test
+    public void test4() {
+        System.out.println(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
+        System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstDayOfYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfNextYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth()));
+    }
+
+    @Resource
+    private PurchaseAndSaleService purchaseAndSaleService;
+
+    @Test
+    public void test5() {
+        MoneyBoardDTO moneyBoard = purchaseAndSaleService.getMoneyBoard();
+        System.out.println(moneyBoard);
+    }
+
+    @Test
+    public void test6() {
+        List<PurchaseAndSaleStateDTO> list = purchaseAndSaleService.listPurchaseSaleState();
+        System.out.println(list);
+    }
+
+    @Test
+    public void test7() {
+        List<BestSaleDTO> bestSaleDTOS = purchaseAndSaleService.listBestSale();
+        System.out.println(bestSaleDTOS);
+    }
+
+    @Test
+    public void test8() {
+        List<BackLogDTO> backLogDTOS = purchaseAndSaleService.listBacklog();
+        System.out.println(backLogDTOS);
+    }
+
 }

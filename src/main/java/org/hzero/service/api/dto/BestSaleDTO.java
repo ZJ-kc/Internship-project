@@ -19,15 +19,25 @@ public class BestSaleDTO {
         return saleName;
     }
 
-    public void setSaleName(String saleName) {
+    public BestSaleDTO setSaleName(String saleName) {
         this.saleName = saleName;
+        return this;
     }
 
     public BigDecimal getSaleOrderSumPrice() {
         return saleOrderSumPrice;
     }
 
-    public void setSaleOrderSumPrice(BigDecimal saleOrderSumPrice) {
+    public BestSaleDTO setSaleOrderSumPrice(BigDecimal saleOrderSumPrice) {
         this.saleOrderSumPrice = saleOrderSumPrice;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "BestSaleDTO{" +
+                "saleName='" + saleName + '\'' +
+                ", saleOrderSumPrice=" + saleOrderSumPrice +
+                '}';
     }
 }

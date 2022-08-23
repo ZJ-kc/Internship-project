@@ -95,15 +95,11 @@ public class PurchaseOrder extends AuditDomain {
 
     @Transient
     private Store store;
-
     @Transient
-    private String purchaseName;
-
+    private Supplier supplier;
     @Transient
-    private String supplierName;
+    private Purchase purchase;
 
-    @Transient
-    private String storeName;
 
 //
 // 非数据库字段
@@ -217,6 +213,22 @@ public class PurchaseOrder extends AuditDomain {
         return this;
     }
 
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
+    }
+
     /**
      * @return 此采购订单总金额
      */
@@ -258,30 +270,6 @@ public class PurchaseOrder extends AuditDomain {
 
     public void setChildren(List<PurchaseInfo> children) {
         this.children = children;
-    }
-
-    public String getPurchaseName() {
-        return purchaseName;
-    }
-
-    public void setPurchaseName(String purchaseName) {
-        this.purchaseName = purchaseName;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
     }
 
     @Override

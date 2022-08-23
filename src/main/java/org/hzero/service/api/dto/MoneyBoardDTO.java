@@ -23,48 +23,65 @@ public class MoneyBoardDTO {
         return purchaseOrderDay;
     }
 
-    public void setPurchaseOrderDay(BigDecimal purchaseOrderDay) {
+    public MoneyBoardDTO setPurchaseOrderDay(BigDecimal purchaseOrderDay) {
         this.purchaseOrderDay = purchaseOrderDay;
+        return this;
     }
 
     public BigDecimal getPurchaseOrderMonth() {
         return purchaseOrderMonth;
     }
 
-    public void setPurchaseOrderMonth(BigDecimal purchaseOrderMonth) {
+    public MoneyBoardDTO setPurchaseOrderMonth(BigDecimal purchaseOrderMonth) {
         this.purchaseOrderMonth = purchaseOrderMonth;
+        return this;
     }
 
     public BigDecimal getPurchaseOrderYear() {
         return purchaseOrderYear;
     }
 
-    public void setPurchaseOrderYear(BigDecimal purchaseOrderYear) {
+    public MoneyBoardDTO setPurchaseOrderYear(BigDecimal purchaseOrderYear) {
         this.purchaseOrderYear = purchaseOrderYear;
+        return this;
     }
 
     public BigDecimal getSaleOrderDay() {
         return saleOrderDay;
     }
 
-    public void setSaleOrderDay(BigDecimal saleOrderDay) {
+    public MoneyBoardDTO setSaleOrderDay(BigDecimal saleOrderDay) {
         this.saleOrderDay = saleOrderDay;
+        return this;
     }
 
     public BigDecimal getSaleOrderMonth() {
         return saleOrderMonth;
     }
 
-    public void setSaleOrderMonth(BigDecimal saleOrderMonth) {
+    public MoneyBoardDTO setSaleOrderMonth(BigDecimal saleOrderMonth) {
         this.saleOrderMonth = saleOrderMonth;
+        return this;
     }
 
     public BigDecimal getSaleOrderYear() {
         return saleOrderYear;
     }
 
-    public void setSaleOrderYear(BigDecimal saleOrderYear) {
+    public MoneyBoardDTO setSaleOrderYear(BigDecimal saleOrderYear) {
         this.saleOrderYear = saleOrderYear;
+        return this;
     }
 
+    @Override
+    public String toString() {
+        return "MoneyBoardDTO{" +
+                "purchaseOrderDay=" + purchaseOrderDay +
+                ", purchaseOrderMonth=" + purchaseOrderMonth +
+                ", purchaseOrderYear=" + purchaseOrderYear +
+                ", saleOrderDay=" + saleOrderDay +
+                ", saleOrderMonth=" + saleOrderMonth +
+                ", saleOrderYear=" + saleOrderYear +
+                '}';
+    }
 }
