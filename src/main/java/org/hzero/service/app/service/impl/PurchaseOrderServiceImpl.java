@@ -1,7 +1,6 @@
 package org.hzero.service.app.service.impl;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
@@ -250,7 +249,18 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
 
         PdfPCell cell31 = new PdfPCell(new Paragraph("币种：  " + purchaseOrder.getCurrency(), normalFont));
         PdfPCell cell32 = new PdfPCell(new Paragraph("总金额：  " + purchaseOrder.getPurchaseOrderSumPrice(), normalFont));
-        PdfPCell cell33 = new PdfPCell(new Paragraph("订单状态：  "+ (purchaseOrder.getPurchaseOrderState() == 0 ? "未提交" : "已提交"), normalFont));
+        Integer purchaseOrderState = purchaseOrder.getPurchaseOrderState();
+        String state = "";
+        if(0 == purchaseOrderState) {
+            state = "未提交";
+        } else if(1 == purchaseOrderState) {
+            state = "待审批";
+        } else if(2 == purchaseOrderState) {
+            state = "审批通过";
+        } else if(3 == purchaseOrderState) {
+            state = "审批拒绝";
+        }
+        PdfPCell cell33 = new PdfPCell(new Paragraph("订单状态：  "+ state, normalFont));
         // 设置单元格边框为0
         cell31.setBorder(0);
         cell32.setBorder(0);

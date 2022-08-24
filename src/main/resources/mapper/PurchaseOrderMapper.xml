@@ -84,7 +84,7 @@
             AND pur_order.purchase_order_number LIKE CONCAT('%',#{keyword},'%')
         </if>
         <if test="null != purchaseOrder.purchaseOrderNumber and '' != purchaseOrder.purchaseOrderNumber">
-            AND pur_order.purchase_order_number LIKE CONCAT('%',#{keyword},'%')
+            AND pur_order.purchase_order_number LIKE CONCAT('%',#{purchaseOrder.purchaseOrderNumber},'%')
         </if>
         <if test="null != purchaseOrder.supplierId">
             AND pur_order.supplier_id = #{purchaseOrder.supplierId}

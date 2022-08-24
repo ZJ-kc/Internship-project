@@ -97,7 +97,7 @@ public class PurchaseOrderExcelListener implements ExcelReadListener {
                 int state = -1;
                 if("未提交".equals(orderState)) {
                     state = 0;
-                } else if("已提交".equals(orderState)) {
+                } else if("待审批".equals(orderState)) {
                     state = 1;
                 } else if("审批通过".equals(orderState)) {
                     state = 2;

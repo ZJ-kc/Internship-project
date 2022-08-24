@@ -55,17 +55,17 @@ public class PurchaseAndSaleServiceImpl extends BaseAppService implements Purcha
     public MoneyBoardDTO getMoneyBoard() {
         MoneyBoardDTO boardDTO = new MoneyBoardDTO();
         // 今日采购金额
-        BigDecimal todayPurchasePrice = getTodayPurchasePrice();
+        BigDecimal todayPurchasePrice = getTodayPurchasePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
         // 本月采购金额
-        BigDecimal monthPurchasePrice = getMonthPurchasePrice();
+        BigDecimal monthPurchasePrice = getMonthPurchasePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
         // 本年采购金额
-        BigDecimal yearPurchasePrice = getYearPurchasePrice();
+        BigDecimal yearPurchasePrice = getYearPurchasePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
         // 今日销售金额
-        BigDecimal todaySalePrice = getTodaySalePrice();
+        BigDecimal todaySalePrice = getTodaySalePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
         // 本月销售金额
-        BigDecimal monthSalePrice = getMonthSalePrice();
+        BigDecimal monthSalePrice = getMonthSalePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
         // 本年销售金额
-        BigDecimal yearSalePrice = getYearSalePrice();
+        BigDecimal yearSalePrice = getYearSalePrice().divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
 
         boardDTO.setPurchaseOrderDay(todayPurchasePrice)
                 .setPurchaseOrderMonth(monthPurchasePrice)
@@ -110,7 +110,7 @@ public class PurchaseAndSaleServiceImpl extends BaseAppService implements Purcha
             bestSaleList.add(new BestSaleDTO().setSaleName(sale.getSaleName()).setSaleOrderSumPrice(salePrice));
         }
 
-        bestSaleList.sort((o1, o2) -> o1.getSaleOrderSumPrice().divide(o2.getSaleOrderSumPrice(), 10, BigDecimal.ROUND_HALF_DOWN).longValue() > 0 ? 0 : 1);
+        bestSaleList.sort((o1, o2) -> o1.getSaleOrderSumPrice().subtract(o2.getSaleOrderSumPrice()).longValue() > 0 ? 0 : 1);
         return bestSaleList;
     }
 
@@ -169,8 +169,8 @@ public class PurchaseAndSaleServiceImpl extends BaseAppService implements Purcha
     private void getStateList(LocalDate localDate, DateTimeFormatter formatter, List<PurchaseAndSaleStateDTO> stateList) {
         LocalDate monthStart = localDate.with(TemporalAdjusters.firstDayOfMonth());
         LocalDate monthEnd = localDate.with(TemporalAdjusters.firstDayOfNextMonth());
-        BigDecimal purchasePrice = getPurchasePriceByMonthScope(monthStart, monthEnd);
-        BigDecimal salePrice = getSalePriceByMonthScope(monthStart, monthEnd);
+        BigDecimal purchasePrice = getPurchasePriceByMonthScope(monthStart, monthEnd).divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
+        BigDecimal salePrice = getSalePriceByMonthScope(monthStart, monthEnd).divide(new BigDecimal(10000), 2,BigDecimal.ROUND_HALF_UP);
 
         stateList.add(new PurchaseAndSaleStateDTO()
                 .setName("采购金额")

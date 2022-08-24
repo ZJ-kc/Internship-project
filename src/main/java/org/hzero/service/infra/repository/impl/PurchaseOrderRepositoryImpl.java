@@ -65,6 +65,10 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
                 purchaseOrder1.setStoreId(purchaseOrder.getStoreId());
             }
 
+            if(null != purchaseOrder.getPurchaseOrderSumPrice()) {
+                purchaseOrder1.setPurchaseOrderSumPrice(purchaseOrder.getPurchaseOrderSumPrice());
+            }
+
             if(null != purchaseOrder.getPurchaseId()) {
                 purchaseOrder1.setPurchaseId(purchaseOrder.getPurchaseId());
             }
@@ -135,7 +139,7 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
             if(0 == purchaseOrderState) {
                 orderState = "未提交";
             } else if(1 == purchaseOrderState) {
-                orderState = "已提交";
+                orderState = "待审批";
             } else if(2 == purchaseOrderState) {
                 orderState = "审批通过";
             } else if(3 == purchaseOrderState) {

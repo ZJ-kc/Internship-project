@@ -86,6 +86,7 @@ public interface PurchaseOrderService {
      * 打印采购订单
      * @param organizationId
      * @param purchaseOrderId
+     * @param response
      */
     void exportPurchasePdf(Long organizationId, Long purchaseOrderId, HttpServletResponse response) throws IOException, DocumentException;
 

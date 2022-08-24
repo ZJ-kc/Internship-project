@@ -8,10 +8,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
+import org.hzero.boot.message.MessageClient;
+import org.hzero.boot.message.entity.Receiver;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.HffServiceApplication;
@@ -29,6 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.hzero.boot.message.MessageClient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -142,4 +147,22 @@ public class test {
         System.out.println(backLogDTOS);
     }
 
+    @Resource
+    private MessageClient messageClient;
+
+    @Test
+    public void test9() {
+        long tenantId = 355L;
+        // 邮箱账户编码
+        String serverCode= "PURCHASE";
+        // 消息模板编码
+        String messageTemplateCode="HWKF_EMAIL_APPROVE";
+        // 指定消息接收人邮箱
+        Receiver receiver = new Receiver().setEmail("541699620@qq.com");
+        List<Receiver> receiverList = Collections.singletonList(receiver);
+        // 消息模板参数
+        Map<String, String> args = new HashMap<>(2);
+        args.put("param", "123456");
+        messageClient.sendEmail(tenantId, serverCode, messageTemplateCode, receiverList, null);
+    }
 }
