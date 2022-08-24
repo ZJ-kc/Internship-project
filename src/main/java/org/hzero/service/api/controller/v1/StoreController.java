@@ -46,11 +46,4 @@ public class StoreController extends BaseController {
         return storeService.list();
     }
 
-
-    @ApiOperation(value = "查询所有仓库")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
-    @GetMapping("/list")
-    public ResponseEntity<List<Store>> list() {
-        return storeService.list();
-    }
 }
