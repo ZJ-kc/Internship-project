@@ -21,4 +21,77 @@
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
         <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
     </resultMap>
+
+    <!--    查询销售订单分页-->
+    <select id="getSaleOrderPage" resultType="org.hzero.service.domain.entity.SaleOrder">
+        SELECT
+        sale_order.sale_order_id,
+        sale_order.sale_order_number,
+        sale_order.company_id,
+        sale_order.sale_order_date,
+        sale_order.sale_id,
+        sale_order.currency,
+        sale_order.sale_order_sum_price,
+        sale_order.sale_order_state,
+        sale_order.client_id
+        FROM
+        `hff_sale_order` sale_order
+        WHERE
+        sale_order.organization_id = #{tenantId}
+        <if test="null != keyword">
+            AND sal_order.sale_order_number LIKE CONCAT('%',#{keyword},'%')
+        </if>
+
+        <if test="null != saleOrder.saleOrderNumber and '' != saleOrder.saleOrderNumber">
+            AND sal_order.sale_order_number LIKE CONCAT('%',#{saleOrder.saleOrderNumber},'%')
+        </if>
+
+        <if test="null != saleOrder.companyId">
+            AND sal_order.company_id = #{saleOrder.companyId}
+        </if>
+        <if test="null != saleOrder.clientId">
+            AND sale_order.client_id = #{saleOrder.clientId}
+        </if>
+
+        <if test="null != saleOrder.saleOrderState">
+            AND sale_order.sale_order_state = #{saleOrder.saleOrderState}
+        </if>
+
+        <if test="null != startDate and null != endDate">
+            AND sal_order.sale_order_date BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="null != startDate and null == endDate">
+            AND TIMESTAMPDIFF(
+            DAY,
+            #{startDate},
+            sal_order.sale_order_date
+            ) >= 0
+        </if>
+        <if test="null == startDate and null != endDate">
+            AND TIMESTAMPDIFF(
+            DAY,
+            sal_order.sale_order_date,
+            #{endDate}
+            ) >= 0
+        </if>
+    </select>
+
+    <!--    根据id查询销售订单-->
+    <select id="getSaleOrderByOrderId" resultType="org.hzero.service.domain.entity.SaleOrder">
+        SELECT sale_order.sale_order_id,
+               sale_order.store_id,
+               sale_order.sale_order_number,
+               sale_order.company_id,
+               sale_order.sale_order_date,
+               sale_order.sale_address,
+               sale_order.sale_id,
+               sale_order.currency,
+               sale_order.sale_order_sum_price,
+               sale_order.sale_order_state,
+               sale_order.client_id
+        FROM `hff_sale_order` sale_order
+        WHERE sale_order.organization_id = #{tenantId}
+          AND sale_order.sale_order_id = #{saleOrderId}
+    </select>
+
 </mapper>

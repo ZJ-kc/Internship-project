@@ -1,5 +1,9 @@
 package org.hzero.service.app.service;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+
 import org.hzero.service.domain.entity.Client;
 
 import io.choerodon.core.domain.Page;
@@ -11,4 +15,9 @@ import io.choerodon.mybatis.pagehelper.domain.PageRequest;
  */
 public interface ClientService {
 
+    /**
+     * 查询所有客户
+     * @return
+     */
+    ResponseEntity<List<Client>> list();
 }

@@ -1,11 +1,15 @@
 package org.hzero.service.api.controller.v1;
 
+import java.util.List;
+
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.CompanyService;
 import org.hzero.service.config.SwaggerApiConfig;
 import org.hzero.service.domain.entity.Company;
+import org.hzero.service.domain.entity.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +38,13 @@ public class CompanyController extends BaseController {
     @Autowired
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
+    }
+
+    @ApiOperation(value = "查询所有公司")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Company>> list() {
+        return companyService.list();
     }
 
 

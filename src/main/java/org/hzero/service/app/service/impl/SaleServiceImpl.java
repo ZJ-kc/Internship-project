@@ -1,12 +1,16 @@
 package org.hzero.service.app.service.impl;
 
+import java.util.List;
+
 import org.hzero.core.base.BaseAppService;
 
+import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
 import org.hzero.service.app.service.SaleService;
 import org.hzero.service.domain.entity.Sale;
 import org.hzero.service.domain.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +32,8 @@ public class SaleServiceImpl extends BaseAppService implements SaleService {
         this.saleRepository = saleRepository;
     }
 
+    @Override
+    public ResponseEntity<List<Sale>> list() {
+        return Results.success(saleRepository.selectAll());
+    }
 }

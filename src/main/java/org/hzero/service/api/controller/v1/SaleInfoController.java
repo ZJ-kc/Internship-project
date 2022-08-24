@@ -1,11 +1,15 @@
 package org.hzero.service.api.controller.v1;
 
+import java.util.List;
+
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.SaleInfoService;
 import org.hzero.service.config.SwaggerApiConfig;
 import org.hzero.service.domain.entity.SaleInfo;
+import org.hzero.service.domain.entity.SaleOrder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +40,20 @@ public class SaleInfoController extends BaseController {
         this.saleInfoService = saleInfoService;
     }
 
+    @ApiOperation(value = "根据订单id查询订单详情数据")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/sale-order-details/by-order-id")
+    public ResponseEntity<List<SaleInfo>> getSaleOrderDetailsByOrderId(@PathVariable("organizationId") Long organizationId,
+                                                                       @RequestParam Long saleOrderId) {
+        return saleInfoService.getSaleOrderDetailsByOrderId(organizationId, saleOrderId);
+    }
+
+    @ApiOperation(value = "物料发货/出库")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @PutMapping("/out-storage")
+    public ResponseEntity<?> outStorage(@PathVariable("organizationId") Long organizationId,
+                                        Long saleOrderId,Long[] saleInfoIds) {
+        return saleInfoService.outStorage(organizationId, saleOrderId,saleInfoIds);
+    }
 
 }

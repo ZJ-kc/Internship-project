@@ -1,12 +1,16 @@
 package org.hzero.service.app.service.impl;
 
+import java.util.List;
+
 import org.hzero.core.base.BaseAppService;
 
+import org.hzero.core.util.Results;
 import org.hzero.mybatis.helper.SecurityTokenHelper;
 import org.hzero.service.app.service.ClientService;
 import org.hzero.service.domain.entity.Client;
 import org.hzero.service.domain.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +32,8 @@ public class ClientServiceImpl extends BaseAppService implements ClientService {
         this.clientRepository = clientRepository;
     }
 
+    @Override
+    public ResponseEntity<List<Client>> list() {
+        return Results.success(clientRepository.selectAll());
+    }
 }

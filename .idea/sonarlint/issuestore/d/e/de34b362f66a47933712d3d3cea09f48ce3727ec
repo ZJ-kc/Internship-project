@@ -1,0 +1,15 @@
+
+U
+java:S1128"8Remove this unused import 'org.hzero.core.util.Results'.(­°€ç8÷‰®ì¬0
+g
+java:S1128"ERemove this unused import 'org.hzero.service.domain.entity.Purchase'.(ø¤õ¹øÿÿÿÿ8ø‰®ì¬0
+\
+java:S1128":Remove this unused import 'io.choerodon.core.domain.Page'.(’”‰¾ûÿÿÿÿ8ø‰®ì¬0
+p
+java:S1128"SRemove this unused import 'io.choerodon.mybatis.pagehelper.annotation.SortDefault'.(·ú½Õ8ù‰®ì¬0
+q
+java:S1128"ORemove this unused import 'io.choerodon.mybatis.pagehelper.domain.PageRequest'.(ùšÜ”ùÿÿÿÿ8ù‰®ì¬0
+e
+java:S1128"HRemove this unused import 'io.choerodon.mybatis.pagehelper.domain.Sort'.(’Ø†Ø8ú‰®ì¬0
+l
+java:S1128"JRemove this unused import 'springfox.documentation.annotations.ApiIgnore'.(µâ¤›ùÿÿÿÿ8ú‰®ì¬0

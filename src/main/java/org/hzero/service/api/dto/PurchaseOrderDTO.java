@@ -44,48 +44,54 @@ public class PurchaseOrderDTO {
         return purchaseOrderNumber;
     }
 
-    public void setPurchaseOrderNumber(String purchaseOrderNumber) {
+    public PurchaseOrderDTO setPurchaseOrderNumber(String purchaseOrderNumber) {
         this.purchaseOrderNumber = purchaseOrderNumber;
+        return this;
     }
 
     public String getSupplierName() {
         return supplierName;
     }
 
-    public void setSupplierName(String supplierName) {
+    public PurchaseOrderDTO setSupplierName(String supplierName) {
         this.supplierName = supplierName;
+        return this;
     }
 
     public String getPurchaseName() {
         return purchaseName;
     }
 
-    public void setPurchaseName(String purchaseName) {
+    public PurchaseOrderDTO setPurchaseName(String purchaseName) {
         this.purchaseName = purchaseName;
+        return this;
     }
 
     public String getPurchaseOrderState() {
         return purchaseOrderState;
     }
 
-    public void setPurchaseOrderState(String purchaseOrderState) {
+    public PurchaseOrderDTO setPurchaseOrderState(String purchaseOrderState) {
         this.purchaseOrderState = purchaseOrderState;
+        return this;
     }
 
     public LocalDate getPurchaseOrderDate() {
         return purchaseOrderDate;
     }
 
-    public void setPurchaseOrderDate(LocalDate purchaseOrderDate) {
+    public PurchaseOrderDTO setPurchaseOrderDate(LocalDate purchaseOrderDate) {
         this.purchaseOrderDate = purchaseOrderDate;
+        return this;
     }
 
     public List<PurchaseInfoDTO> getPurchaseInfoList() {
         return purchaseInfoList;
     }
 
-    public void setPurchaseInfoList(List<PurchaseInfoDTO> purchaseInfoList) {
+    public PurchaseOrderDTO setPurchaseInfoList(List<PurchaseInfoDTO> purchaseInfoList) {
         this.purchaseInfoList = purchaseInfoList;
+        return this;
     }
 
     @Override

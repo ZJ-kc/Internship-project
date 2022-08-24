@@ -38,48 +38,54 @@ public class PurchaseInfoDTO {
         return purchaseLineNumber;
     }
 
-    public void setPurchaseLineNumber(Long purchaseLineNumber) {
+    public PurchaseInfoDTO setPurchaseLineNumber(Long purchaseLineNumber) {
         this.purchaseLineNumber = purchaseLineNumber;
+        return this;
     }
 
     public String getMaterialCode() {
         return materialCode;
     }
 
-    public void setMaterialCode(String materialCode) {
+    public PurchaseInfoDTO setMaterialCode(String materialCode) {
         this.materialCode = materialCode;
+        return this;
     }
 
     public BigDecimal getMaterialPrice() {
         return materialPrice;
     }
 
-    public void setMaterialPrice(BigDecimal materialPrice) {
+    public PurchaseInfoDTO setMaterialPrice(BigDecimal materialPrice) {
         this.materialPrice = materialPrice;
+        return this;
     }
 
     public Long getPurchaseNumber() {
         return purchaseNumber;
     }
 
-    public void setPurchaseNumber(Long purchaseNumber) {
+    public PurchaseInfoDTO setPurchaseNumber(Long purchaseNumber) {
         this.purchaseNumber = purchaseNumber;
+        return this;
     }
 
     public BigDecimal getPurchaseInfoSumPrice() {
         return purchaseInfoSumPrice;
     }
 
-    public void setPurchaseInfoSumPrice(BigDecimal purchaseInfoSumPrice) {
+    public PurchaseInfoDTO setPurchaseInfoSumPrice(BigDecimal purchaseInfoSumPrice) {
         this.purchaseInfoSumPrice = purchaseInfoSumPrice;
+        return this;
     }
 
     public String getPurchaseInfoRemark() {
         return purchaseInfoRemark;
     }
 
-    public void setPurchaseInfoRemark(String purchaseInfoRemark) {
+    public PurchaseInfoDTO setPurchaseInfoRemark(String purchaseInfoRemark) {
         this.purchaseInfoRemark = purchaseInfoRemark;
+        return this;
     }
 
     @Override

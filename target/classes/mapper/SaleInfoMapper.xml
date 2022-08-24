@@ -3,18 +3,35 @@
 <mapper namespace="org.hzero.service.infra.mapper.SaleInfoMapper">
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap id="BaseResultMap" type="org.hzero.service.domain.entity.SaleInfo">
-                    <result column="sale_info_id" property="saleInfoId" jdbcType="DECIMAL"/>
-                    <result column="sale_line_number" property="saleLineNumber" jdbcType="DECIMAL"/>
-                    <result column="sale_order_id" property="saleOrderId" jdbcType="DECIMAL"/>
-                    <result column="material_id" property="materialId" jdbcType="DECIMAL"/>
-                    <result column="sale_number" property="saleNumber" jdbcType="DECIMAL"/>
-                    <result column="sale_info_sum_price" property="saleInfoSumPrice" jdbcType="DECIMAL"/>
-                    <result column="delivery_state" property="deliveryState" jdbcType="DECIMAL"/>
-                    <result column="sale_info_remark" property="saleInfoRemark" jdbcType="VARCHAR"/>
-                    <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
-                    <result column="creation_date" property="creationDate" jdbcType="DATE"/>
-                    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
-                    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
-                    <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
-            </resultMap>
+        <result column="sale_info_id" property="saleInfoId" jdbcType="DECIMAL"/>
+        <result column="sale_line_number" property="saleLineNumber" jdbcType="DECIMAL"/>
+        <result column="sale_order_id" property="saleOrderId" jdbcType="DECIMAL"/>
+        <result column="material_id" property="materialId" jdbcType="DECIMAL"/>
+        <result column="sale_number" property="saleNumber" jdbcType="DECIMAL"/>
+        <result column="sale_info_sum_price" property="saleInfoSumPrice" jdbcType="DECIMAL"/>
+        <result column="delivery_state" property="deliveryState" jdbcType="DECIMAL"/>
+        <result column="sale_info_remark" property="saleInfoRemark" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+    </resultMap>
+
+
+    <!--    根据订单id查询订单详情-->
+    <select id="getSaleOrderDetailsByOrderId" resultType="org.hzero.service.domain.entity.SaleInfo">
+        SELECT
+            sale_info.sale_info_id,
+            sale_info.material_id,
+            sale_info.sale_number,
+            sale_info.sale_info_sum_price,
+            sale_info.delivery_state,
+            sale_info.sale_info_remark
+
+        FROM
+            `hff_sale_info` sale_info
+        WHERE
+            sale_info.sale_order_id = #{saleOrderId}
+    </select>
 </mapper>

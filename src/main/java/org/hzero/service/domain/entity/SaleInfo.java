@@ -3,6 +3,7 @@ package org.hzero.service.domain.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -69,6 +70,28 @@ public class SaleInfo extends AuditDomain {
 //
 // 非数据库字段
 // ------------------------------------------------------------------------------
+
+    @Transient
+    private Material material;
+
+    @Transient
+    private Repertory repertory;
+
+    public Repertory getRepertory() {
+        return repertory;
+    }
+
+    public void setRepertory(Repertory repertory) {
+        this.repertory = repertory;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
 
 //
 // getter/setter
@@ -169,6 +192,21 @@ public class SaleInfo extends AuditDomain {
         this.saleInfoRemark = saleInfoRemark;
         return this;
     }
+
+//    @Override
+//    public String toString() {
+//        return "SaleInfo{" +
+//                "saleInfoId=" + saleInfoId +
+//                ", saleLineNumber=" + saleLineNumber +
+//                ", saleOrderId=" + saleOrderId +
+//                ", materialId=" + materialId +
+//                ", saleNumber=" + saleNumber +
+//                ", saleInfoSumPrice=" + saleInfoSumPrice +
+//                ", deliveryState=" + deliveryState +
+//                ", saleInfoRemark='" + saleInfoRemark + '\'' +
+//                '}';
+//    }
+
 
     @Override
     public String toString() {

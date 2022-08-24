@@ -12,12 +12,15 @@ import org.apache.commons.lang.StringUtils;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.HffServiceApplication;
+import org.hzero.service.domain.entity.Client;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
+import org.hzero.service.domain.repository.ClientRepository;
 import org.hzero.service.domain.repository.PurchaseInfoRepository;
 import org.hzero.service.domain.repository.PurchaseOrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -77,5 +80,22 @@ public class test {
         System.out.println(ids);
         List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.selectByIds(ids);
         System.out.println(purchaseOrderList);
+    }
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Test
+    public void test3() {
+        Client client = clientRepository.selectByCondition(
+                Condition.builder(Client.class)
+                        .andWhere(
+                                Sqls.custom()
+                                        .andEqualTo(Client.FIELD_COMPANY_ID, 1)
+                                        .andEqualTo(Client.FIELD_CLIENT_NAME, "王伟")
+                        )
+                        .build()
+        ).get(0);
+        System.out.println(client);
     }
 }

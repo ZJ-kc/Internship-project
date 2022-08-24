@@ -1,6 +1,7 @@
 package org.hzero.service.api.controller.v1;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
@@ -35,6 +36,13 @@ public class StoreController extends BaseController {
     @Autowired
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
+    }
+
+    @ApiOperation(value = "查询所有仓库")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Store>> list() {
+        return storeService.list();
     }
 
 

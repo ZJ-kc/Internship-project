@@ -1,0 +1,7 @@
+
+^
+java:S1128"ARemove this unused import 'org.hzero.service.domain.entity.Card'.(ª‘›8©ïÏÒ¬0
+\
+java:S1128":Remove this unused import 'io.choerodon.core.domain.Page'.(’”‰¾ûÿÿÿÿ8ªïÏÒ¬0
+q
+java:S1128"ORemove this unused import 'io.choerodon.mybatis.pagehelper.domain.PageRequest'.(ùšÜ”ùÿÿÿÿ8ªïÏÒ¬0

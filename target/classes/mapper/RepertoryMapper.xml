@@ -23,6 +23,7 @@
         <association property="material" javaType="org.hzero.service.domain.entity.Material">
             <result column="material_code" property="materialCode" jdbcType="VARCHAR"/>
             <result column="material_description" property="materialDescription" jdbcType="VARCHAR"/>
+            <result column="material_unit" property="materialUnit" jdbcType="VARCHAR"/>
         </association>
     </resultMap>
 
@@ -35,6 +36,7 @@
             repertory.last_update_date,
             store.store_name,
             material.material_code,
+            material.material_unit,
             material.material_description
         FROM
             `hff_repertory` repertory,

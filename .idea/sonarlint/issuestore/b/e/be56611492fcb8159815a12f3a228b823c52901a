@@ -1,0 +1,9 @@
+
+W	java:S1255"<This block of commented-out lines of code should be removed.(ĞÌÇe8šÕæó¬0
+`
+java:S1155B">Use isEmpty() to check whether the collection is empty or not.(ÚôÃÍüÿÿÿÿ8Üæó¬0
+k
+java:S1128
+"IRemove this unused import 'org.hzero.service.domain.entity.PurchaseInfo'.(¦÷İ®ÿÿÿÿÿ8İæó¬0
+U
+java:S1068 "3Remove this unused "saleOrderMapper" private field.(¦ÛÕÕüÿÿÿÿ8·‰­¬0

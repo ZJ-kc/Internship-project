@@ -1,0 +1,12 @@
+
+V	java:S1259"<This block of commented-out lines of code should be removed.(®ÄÈøÿÿÿÿ
+V	java:S125>"<This block of commented-out lines of code should be removed.(†‰ßüÿÿÿÿ
+Y
+java:S1155`">Use isEmpty() to check whether the collection is empty or not.(Ï×þ˜üÿÿÿÿ
+O	java:S106¥"9Replace this use of System.out or System.err by a logger.(ÀÆžÔ
+T	java:S106©"9Replace this use of System.out or System.err by a logger.(™“ž˜üÿÿÿÿ
+c
+java:S1128
+"FRemove this unused import 'org.hzero.service.api.dto.PurchaseInfoDTO'.(—£¹‰8ÖÔúó¬0
+d
+java:S1128"GRemove this unused import 'org.hzero.service.api.dto.PurchaseOrderDTO'.(œß™ë8ØÔúó¬0

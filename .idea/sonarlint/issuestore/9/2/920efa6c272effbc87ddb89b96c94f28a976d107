@@ -1,0 +1,29 @@
+
+s	java:S135D"YReduce the total number of break and continue statements in this loop to use at most one.(…¬å¿ýÿÿÿÿ
+g
+java:S37766"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(½ñ“2
+Z
+java:S1854C"=Remove this useless assignment to local variable "companyId".(’°ÜŸ8ü½ÏÌ¬0
+_
+java:S1854W"=Remove this useless assignment to local variable "companyId".(½Ò·ƒþÿÿÿÿ8ü½ÏÌ¬0
+2
+java:S3626‚"Remove this redundant jump.(ÉŠ©ƒ
+]	java:S125?"<This block of commented-out lines of code should be removed.(ÍÛ³¹ùÿÿÿÿ8øøÌÌ¬0
+K
+java:S1481C".Remove this unused "companyId" local variable.(’°ÜŸ8þ½ÏÌ¬0
+>
+java:S1905U")Remove this unnecessary cast to "String".(ò²ˆ
+D
+java:S1905c")Remove this unnecessary cast to "String".(Žú‡úüÿÿÿÿ
+N	java:S106g"9Replace this use of System.out or System.err by a logger.(äüßí
+Q	java:S125h"<This block of commented-out lines of code should be removed.(ÿóÞÈ
+D
+java:S1905r")Remove this unnecessary cast to "String".(Õÿýôøÿÿÿÿ
+D
+java:S1905|")Remove this unnecessary cast to "String".(”‘ÉÜùÿÿÿÿ
+G
+java:S1905")Remove this unnecessary cast to "String".(ÞÐü8£ºÍÌ¬0
+|
+java:S1128"ZRemove this unused import 'org.hzero.service.infra.util.PurchaseOrderImportConstantUtils'.(þÖ¤þûÿÿÿÿ8”±ÌÌ¬0
+H
+java:S1068'"-Remove this unused "formatter" private field.(ª’žùÿÿÿÿ

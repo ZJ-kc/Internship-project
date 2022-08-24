@@ -1,0 +1,13 @@
+
+d
+java:S1128"IRemove this unused import 'org.hzero.mybatis.helper.SecurityTokenHelper'.(•ÛÑôÿÿÿÿÿ
+`
+java:S1128"ERemove this unused import 'org.hzero.service.domain.entity.Purchase'.(ø¤õ¹øÿÿÿÿ
+p
+java:S1128"URemove this unused import 'org.springframework.transaction.annotation.Transactional'.(ðùçøùÿÿÿÿ
+U
+java:S1128":Remove this unused import 'io.choerodon.core.domain.Page'.(’”‰¾ûÿÿÿÿ
+j
+java:S1128"ORemove this unused import 'io.choerodon.mybatis.pagehelper.domain.PageRequest'.(ùšÜ”ùÿÿÿÿ
+Q
+java:S1068"6Remove this unused "purchaseRepository" private field.(Ï‘ðÝýÿÿÿÿ

@@ -1,11 +1,15 @@
 package org.hzero.service.api.controller.v1;
 
+import java.util.List;
+
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.ClientService;
 import org.hzero.service.config.SwaggerApiConfig;
 import org.hzero.service.domain.entity.Client;
+import org.hzero.service.domain.entity.Purchase;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +39,13 @@ public class ClientController extends BaseController {
     @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
+    }
+
+    @ApiOperation(value = "查询所有客户")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Client>> list() {
+        return clientService.list();
     }
 
 }

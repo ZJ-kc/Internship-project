@@ -85,7 +85,40 @@ public class SaleOrder extends AuditDomain {
     @Transient
     private List<SaleInfo> children;
 
-//
+    @Transient
+    private Sale sale;
+
+    @Transient
+    private Company company;
+
+    @Transient
+    private Store store;
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    //
 // 非数据库字段
 // ------------------------------------------------------------------------------
 
@@ -241,9 +274,31 @@ public class SaleOrder extends AuditDomain {
         return children;
     }
 
+
+
     public void setChildren(List<SaleInfo> children) {
         this.children = children;
     }
+
+//    @Override
+//    public String toString() {
+//        return "SaleOrder{" +
+//                "saleOrderId=" + saleOrderId +
+//                ", saleOrderNumber='" + saleOrderNumber + '\'' +
+//                ", saleId=" + saleId +
+//                ", companyId=" + companyId +
+//                ", clientId=" + clientId +
+//                ", saleAddress='" + saleAddress + '\'' +
+//                ", storeId=" + storeId +
+//                ", saleOrderState=" + saleOrderState +
+//                ", saleOrderDate=" + saleOrderDate +
+//                ", currencyId=" + currency +
+//                ", saleOrderSumPrice=" + saleOrderSumPrice +
+//                ", organizationId=" + organizationId +
+//                ", children=" + children +
+//                '}';
+//    }
+
 
     @Override
     public String toString() {
@@ -257,7 +312,7 @@ public class SaleOrder extends AuditDomain {
                 ", storeId=" + storeId +
                 ", saleOrderState=" + saleOrderState +
                 ", saleOrderDate=" + saleOrderDate +
-                ", currencyId=" + currency +
+                ", currency='" + currency + '\'' +
                 ", saleOrderSumPrice=" + saleOrderSumPrice +
                 ", organizationId=" + organizationId +
                 ", children=" + children +

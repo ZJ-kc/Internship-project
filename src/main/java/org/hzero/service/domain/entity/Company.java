@@ -1,8 +1,10 @@
 package org.hzero.service.domain.entity;
 
+import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,7 +53,29 @@ public class Company extends AuditDomain {
     @ApiModelProperty(value = "启用标识，1启用，0未启用", required = true)
     private Integer enabledFlag;
 
-//
+    @Transient
+    private List<Client> children;
+
+    @Transient
+    private Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<Client> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Client> children) {
+        this.children = children;
+    }
+
+    //
 // 非数据库字段
 // ------------------------------------------------------------------------------
 

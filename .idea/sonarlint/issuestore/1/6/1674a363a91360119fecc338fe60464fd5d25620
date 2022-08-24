@@ -1,0 +1,22 @@
+
+A
+java:S1452T"&Remove usage of generic wildcard type.(‚ø¶€ÿÿÿÿÿ
+A
+java:S1452\"&Remove usage of generic wildcard type.(ÍÖƒÖùÿÿÿÿ
+H
+java:S1135a"2Complete the task associated to this TODO comment.(ù‡¿á
+X	java:S125h"<This block of commented-out lines of code should be removed.(íˆûı8Û•Í¬0
+<
+java:S1452p"&Remove usage of generic wildcard type.(’åÜŒ
+K
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ
+O
+java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ
+U
+java:S1128"?Remove this unused import 'org.hzero.excel.helper.ExcelHelper'.(ÙĞ´È
+d
+java:S1128"IRemove this unused import 'org.hzero.service.domain.entity.PurchaseInfo'.(¦÷İ®ÿÿÿÿÿ
+s
+java:S1128"XRemove this unused import 'org.hzero.service.infra.listener.PurchaseOrderExcelListener'.(ÿšŞ•şÿÿÿÿ
+J
+java:S1128"4Remove this unused import 'org.slf4j.LoggerFactory'.(–ÿÚŞ

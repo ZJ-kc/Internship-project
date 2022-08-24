@@ -1,0 +1,26 @@
+
+N
+java:S1128"8Remove this unused import 'org.hzero.core.util.Results'.(­°€ç
+`
+java:S1128"ERemove this unused import 'org.hzero.service.domain.entity.Purchase'.(ø¤õ¹øÿÿÿÿ
+_
+java:S1128
+"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ
+U
+java:S1128":Remove this unused import 'io.choerodon.core.domain.Page'.(’”‰¾ûÿÿÿÿ
+[
+java:S1128"@Remove this unused import 'io.choerodon.core.iam.ResourceLevel'.(¯ãÅïıÿÿÿÿ
+i
+java:S1128"SRemove this unused import 'io.choerodon.mybatis.pagehelper.annotation.SortDefault'.(·ú½Õ
+j
+java:S1128"ORemove this unused import 'io.choerodon.mybatis.pagehelper.domain.PageRequest'.(ùšÜ”ùÿÿÿÿ
+^
+java:S1128"HRemove this unused import 'io.choerodon.mybatis.pagehelper.domain.Sort'.(’Ø†Ø
+b
+java:S1128"GRemove this unused import 'io.choerodon.swagger.annotation.Permission'.(Ñ«›Ñüÿÿÿÿ
+V
+java:S1128"@Remove this unused import 'io.swagger.annotations.ApiOperation'.(¡šÜ
+e
+java:S1128"JRemove this unused import 'springfox.documentation.annotations.ApiIgnore'.(µâ¤›ùÿÿÿÿ
+N
+java:S1068!"3Remove this unused "purchaseService" private field.(®ƒ‹¤şÿÿÿÿ

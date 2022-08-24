@@ -101,10 +101,9 @@ public class PurchaseOrderController extends BaseController {
     @ExcelExport(PurchaseOrderDTO.class)
     public ResponseEntity<List<PurchaseOrderDTO>> export(Integer[] purchaseOrderIds, ExportParam exportParam,
                                                          HttpServletResponse response) {
-        if(null == purchaseOrderIds) {
-            return Results.error();
-        }
-        return Results.success(purchaseOrderService.exportPurchaseOrder(purchaseOrderIds));
+//        return Results.success(purchaseOrderService.exportPurchaseOrder(purchaseOrderIds));
+        List<PurchaseOrderDTO> orderList = purchaseOrderService.exportPurchaseOrder(purchaseOrderIds);
+        return Results.success(orderList);
     }
 
     @ApiOperation(value = "导入采购订单")
@@ -112,5 +111,12 @@ public class PurchaseOrderController extends BaseController {
     @PostMapping("/import")
     public ResponseEntity<?> importPurchaseOrder(MultipartFile file) {
         return purchaseOrderService.importPurchaseOrder(file);
+    }
+
+    @ApiOperation(value = "路上的风景考虑")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/test")
+    public String test() {
+        return "test";
     }
 }

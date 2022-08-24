@@ -1,5 +1,7 @@
 package org.hzero.service.api.controller.v1;
 
+import java.util.List;
+
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
@@ -34,6 +36,13 @@ public class MaterialController extends BaseController {
     @Autowired
     public MaterialController(MaterialService materialService) {
         this.materialService = materialService;
+    }
+
+    @ApiOperation(value = "查询所有物料信息")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Material>> list() {
+        return materialService.list();
     }
 
 

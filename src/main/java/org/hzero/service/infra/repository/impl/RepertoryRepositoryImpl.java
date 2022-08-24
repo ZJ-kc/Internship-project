@@ -2,15 +2,19 @@ package org.hzero.service.infra.repository.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.hzero.core.util.Results;
 import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
-import org.hzero.service.domain.entity.PurchaseInfo;
-import org.hzero.service.domain.entity.PurchaseOrder;
-import org.hzero.service.domain.entity.Repertory;
+import org.hzero.service.domain.entity.*;
 import org.hzero.service.domain.repository.RepertoryRepository;
+import org.hzero.service.domain.repository.SaleInfoRepository;
+import org.hzero.service.domain.repository.SaleOrderRepository;
 import org.hzero.service.domain.vo.RepertoryParam;
 import org.hzero.service.infra.mapper.RepertoryMapper;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,9 +26,15 @@ import org.springframework.stereotype.Component;
 public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> implements RepertoryRepository {
 
     private final RepertoryMapper repertoryMapper;
+    private final SaleOrderRepository saleOrderRepository;
+    private final SaleInfoRepository saleInfoRepository;
 
-    public RepertoryRepositoryImpl(RepertoryMapper repertoryMapper) {
+    public RepertoryRepositoryImpl(RepertoryMapper repertoryMapper,
+                                   SaleOrderRepository saleOrderRepository,
+                                   SaleInfoRepository saleInfoRepository) {
         this.repertoryMapper = repertoryMapper;
+        this.saleOrderRepository = saleOrderRepository;
+        this.saleInfoRepository = saleInfoRepository;
     }
 
     @Override
@@ -70,5 +80,35 @@ public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> imple
             repertory.setMaterialUnit(repertory.getMaterial().getMaterialUnit());
         }
         return repertoryPage;
+    }
+
+    @Override
+    public ResponseEntity<?> outStorage(Long saleOrderId, Long[] saleInfoIds) {
+        SaleOrder saleOrder = saleOrderRepository.selectByPrimaryKey(saleOrderId);
+        Long storeId = saleOrder.getStoreId();
+
+        List<SaleInfo> saleInfoList = saleInfoRepository.selectByIds(StringUtils.join(saleInfoIds, ","));
+//        Long storeId = saleOrder.getStoreId();
+//        List<SaleInfo> saleInfoList = saleOrder.getChildren();
+        for (SaleInfo saleInfo : saleInfoList) {
+            Long materialId = saleInfo.getMaterialId();
+            // 判断库存某仓库是否存在该物料
+            List<Repertory> repertoryList = repertoryMapper.selectByCondition(Condition.builder(Repertory.class)
+                    .andWhere(
+                            Sqls.custom()
+                                    .andEqualTo(Repertory.FIELD_STORE_ID, storeId)
+                                    .andEqualTo(Repertory.FIELD_MATERIAL_ID, materialId)
+                    )
+                    .build());
+            // 若为空，则说明库存不存在
+            if (null == repertoryList || repertoryList.isEmpty()) {
+                return Results.error("库存不存在");
+            }
+            Repertory repertory = repertoryList.get(0);
+            repertory.setWaitRepertoryNumber(repertory.getWaitRepertoryNumber() - saleInfo.getSaleNumber());
+            repertory.setRepertoryNumber(repertory.getAbleRepertoryNumber() + repertory.getWaitRepertoryNumber());
+            repertoryMapper.updateOptional(repertory, Repertory.FIELD_WAIT_REPERTORY_NUMBER, Repertory.FIELD_REPERTORY_NUMBER);
+        }
+        return Results.success();
     }
 }
