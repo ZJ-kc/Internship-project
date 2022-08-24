@@ -82,9 +82,9 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
     }
 
     @Override
-    public Page<PurchaseOrder> list(Long tenantId, PurchaseOrder purchaseOrder, PageRequest pageRequest,
+    public Page<PurchaseOrder> list(Long tenantId, String keyword, PurchaseOrder purchaseOrder, PageRequest pageRequest,
                                     LocalDate startDate, LocalDate endDate) {
-        return PageHelper.doPageAndSort(pageRequest, () -> purchaseOrderRepository.getPurchaseOrderPage(tenantId, purchaseOrder, startDate, endDate));
+        return PageHelper.doPageAndSort(pageRequest, () -> purchaseOrderRepository.getPurchaseOrderPage(tenantId, keyword, purchaseOrder, startDate, endDate));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
     }
 
     /**
-     * TODO 发送提价信息
+     * TODO 发送提交信息
      * @param organizationId
      * @param purchaseOrderId
      * @return
@@ -301,10 +301,10 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
 
             table5.setWidths(width2);
             PdfPCell cell51 = new PdfPCell(new Paragraph(i + "", normalFont));
-            PdfPCell cell52 = new PdfPCell(new Paragraph(orderDetail.getMaterialCode(), normalFont));
-            PdfPCell cell53 = new PdfPCell(new Paragraph(orderDetail.getMaterialDescription(), normalFont));
-            PdfPCell cell54 = new PdfPCell(new Paragraph(orderDetail.getMaterialPrice()+"", normalFont));
-            PdfPCell cell55 = new PdfPCell(new Paragraph(orderDetail.getMaterialUnit(), normalFont));
+            PdfPCell cell52 = new PdfPCell(new Paragraph(orderDetail.getMaterial().getMaterialCode(), normalFont));
+            PdfPCell cell53 = new PdfPCell(new Paragraph(orderDetail.getMaterial().getMaterialDescription(), normalFont));
+            PdfPCell cell54 = new PdfPCell(new Paragraph(orderDetail.getMaterial().getMaterialPrice()+"", normalFont));
+            PdfPCell cell55 = new PdfPCell(new Paragraph(orderDetail.getMaterial().getMaterialUnit(), normalFont));
             PdfPCell cell56 = new PdfPCell(new Paragraph(orderDetail.getPurchaseNumber()+"", normalFont));
             PdfPCell cell57 = new PdfPCell(new Paragraph(orderDetail.getPurchaseInfoSumPrice()+"", normalFont));
             PdfPCell cell58 = new PdfPCell(new Paragraph(orderDetail.getStorageState()==0 ? "未入库" : "已入库", normalFont));

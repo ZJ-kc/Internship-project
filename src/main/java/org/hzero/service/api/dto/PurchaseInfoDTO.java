@@ -23,13 +23,13 @@ public class PurchaseInfoDTO {
     private String materialCode;
 
     @ExcelColumn(zh = "单价", en = "Price")
-    private BigDecimal materialPrice;
+    private String materialPrice;
 
     @ExcelColumn(zh = "采购数量", en = "Purchase Number")
     private Long purchaseNumber;
 
     @ExcelColumn(zh = "金额", en = "Sum Price")
-    private BigDecimal purchaseInfoSumPrice;
+    private String purchaseInfoSumPrice;
 
     @ExcelColumn(zh = "备注", en = "Remark")
     private String purchaseInfoRemark;
@@ -46,40 +46,45 @@ public class PurchaseInfoDTO {
         return materialCode;
     }
 
-    public void setMaterialCode(String materialCode) {
+    public PurchaseInfoDTO setMaterialCode(String materialCode) {
         this.materialCode = materialCode;
+        return this;
     }
 
-    public BigDecimal getMaterialPrice() {
+    public String getMaterialPrice() {
         return materialPrice;
     }
 
-    public void setMaterialPrice(BigDecimal materialPrice) {
+    public PurchaseInfoDTO setMaterialPrice(String materialPrice) {
         this.materialPrice = materialPrice;
+        return this;
     }
 
     public Long getPurchaseNumber() {
         return purchaseNumber;
     }
 
-    public void setPurchaseNumber(Long purchaseNumber) {
+    public PurchaseInfoDTO setPurchaseNumber(Long purchaseNumber) {
         this.purchaseNumber = purchaseNumber;
+        return this;
     }
 
-    public BigDecimal getPurchaseInfoSumPrice() {
+    public String getPurchaseInfoSumPrice() {
         return purchaseInfoSumPrice;
     }
 
-    public void setPurchaseInfoSumPrice(BigDecimal purchaseInfoSumPrice) {
+    public PurchaseInfoDTO setPurchaseInfoSumPrice(String purchaseInfoSumPrice) {
         this.purchaseInfoSumPrice = purchaseInfoSumPrice;
+        return this;
     }
 
     public String getPurchaseInfoRemark() {
         return purchaseInfoRemark;
     }
 
-    public void setPurchaseInfoRemark(String purchaseInfoRemark) {
+    public PurchaseInfoDTO setPurchaseInfoRemark(String purchaseInfoRemark) {
         this.purchaseInfoRemark = purchaseInfoRemark;
+        return this;
     }
 
     @Override

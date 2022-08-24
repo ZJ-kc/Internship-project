@@ -27,8 +27,9 @@ public interface PurchaseInfoService {
     /**
      * 物料入库
      * @param organizationId
-     * @param purchaseOrder
+     * @param purchaseOrderId
+     * @param purchaseInfoIds
      * @return
      */
-    ResponseEntity<?> putStorage(Long organizationId, PurchaseOrder purchaseOrder);
+    ResponseEntity<?> putStorage(Long organizationId, Long purchaseOrderId, Long[] purchaseInfoIds);
 }

@@ -27,13 +27,14 @@ public interface PurchaseOrderService {
     * 查询参数
     *
     * @param tenantId 租户ID
+     * @param keyword 聚合查询关键字
     * @param purchaseOrder 
     * @param pageRequest 分页
     * @param startDate 开始日期
     * @param endDate 结束日期
     * @return 列表
     */
-    Page<PurchaseOrder> list(Long tenantId, PurchaseOrder purchaseOrder, PageRequest pageRequest, LocalDate startDate, LocalDate endDate);
+    Page<PurchaseOrder> list(Long tenantId, String keyword,  PurchaseOrder purchaseOrder, PageRequest pageRequest, LocalDate startDate, LocalDate endDate);
 
     /**
      * 通过id查询采购订单

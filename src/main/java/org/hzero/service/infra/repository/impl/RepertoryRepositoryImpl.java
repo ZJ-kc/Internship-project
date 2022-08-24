@@ -2,12 +2,15 @@ package org.hzero.service.infra.repository.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import org.hzero.service.domain.entity.Repertory;
+import org.hzero.service.domain.repository.PurchaseInfoRepository;
+import org.hzero.service.domain.repository.PurchaseOrderRepository;
 import org.hzero.service.domain.repository.RepertoryRepository;
 import org.hzero.service.domain.vo.RepertoryParam;
 import org.hzero.service.infra.mapper.RepertoryMapper;
@@ -22,15 +25,24 @@ import org.springframework.stereotype.Component;
 public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> implements RepertoryRepository {
 
     private final RepertoryMapper repertoryMapper;
+    private final PurchaseOrderRepository purchaseOrderRepository;
+    private final PurchaseInfoRepository purchaseInfoRepository;
 
-    public RepertoryRepositoryImpl(RepertoryMapper repertoryMapper) {
+    public RepertoryRepositoryImpl(RepertoryMapper repertoryMapper,
+                                   PurchaseOrderRepository purchaseOrderRepository,
+                                   PurchaseInfoRepository purchaseInfoRepository) {
         this.repertoryMapper = repertoryMapper;
+        this.purchaseOrderRepository = purchaseOrderRepository;
+        this.purchaseInfoRepository = purchaseInfoRepository;
     }
 
     @Override
-    public void addStorage(PurchaseOrder purchaseOrder) {
+    public void addStorage(Long purchaseOrderId, Long[] purchaseInfoIds) {
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.selectByPrimaryKey(purchaseOrderId);
         Long storeId = purchaseOrder.getStoreId();
-        List<PurchaseInfo> purchaseInfoList = purchaseOrder.getChildren();
+
+        List<PurchaseInfo> purchaseInfoList = purchaseInfoRepository.selectByIds(StringUtils.join(purchaseInfoIds, ","));
+//        List<PurchaseInfo> purchaseInfoList = purchaseOrder.getChildren();
         for (PurchaseInfo purchaseInfo : purchaseInfoList) {
             Long materialId = purchaseInfo.getMaterialId();
             // 判断库存某仓库是否存在该物料
@@ -49,13 +61,13 @@ public class RepertoryRepositoryImpl extends BaseRepositoryImpl<Repertory> imple
                         .setWaitRepertoryNumber(0L)
                         .setRepertoryNumber(purchaseInfo.getPurchaseNumber());
 
-                repertoryMapper.insert(repertory);
+                repertoryMapper.insertSelective(repertory);
             } else {
                 Repertory repertory = repertoryList.get(0);
-                repertory.setAbleRepertoryNumber(repertory.getAbleRepertoryNumber()+purchaseInfo.getPurchaseNumber());
-                repertory.setRepertoryNumber(repertory.getAbleRepertoryNumber()+repertory.getWaitRepertoryNumber());
+                repertory.setAbleRepertoryNumber(repertory.getAbleRepertoryNumber() + purchaseInfo.getPurchaseNumber());
+                repertory.setRepertoryNumber(repertory.getAbleRepertoryNumber() + repertory.getWaitRepertoryNumber());
 
-                repertoryMapper.updateOptional(repertory, Repertory.FIELD_REPERTORY_NUMBER,Repertory.FIELD_ABLE_REPERTORY_NUMBER);
+                repertoryMapper.updateOptional(repertory, Repertory.FIELD_REPERTORY_NUMBER, Repertory.FIELD_ABLE_REPERTORY_NUMBER);
             }
         }
     }

@@ -37,8 +37,8 @@ public class PurchaseOrderCheckServiceImpl extends BaseAppService implements Pur
     }
 
     @Override
-    public Page<PurchaseOrder> list(Long tenantId, PurchaseOrder purchaseOrder, PageRequest pageRequest, LocalDate beginDate, LocalDate endDate) {
-        return purchaseOrderService.list(tenantId, purchaseOrder, pageRequest, beginDate, endDate);
+    public Page<PurchaseOrder> list(Long tenantId, String keyword, PurchaseOrder purchaseOrder, PageRequest pageRequest, LocalDate beginDate, LocalDate endDate) {
+        return purchaseOrderService.list(tenantId, keyword, purchaseOrder, pageRequest, beginDate, endDate);
     }
 
     @Override

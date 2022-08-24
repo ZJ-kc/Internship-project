@@ -17,9 +17,10 @@ public interface RepertoryRepository extends BaseRepository<Repertory> {
 
     /**
      * 物料入库
-     * @param purchaseOrder
+     * @param purchaseOrderId
+     * @param purchaseInfoIds
      */
-    void addStorage(PurchaseOrder purchaseOrder);
+    void addStorage(Long purchaseOrderId, Long[] purchaseInfoIds);
 
     /**
      * 分页查询库存信息

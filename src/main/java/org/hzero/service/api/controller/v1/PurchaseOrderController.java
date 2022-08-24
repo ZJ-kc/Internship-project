@@ -59,11 +59,12 @@ public class PurchaseOrderController extends BaseController {
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
     @GetMapping("/paging")
     public ResponseEntity<Page<PurchaseOrder>> list(@PathVariable("organizationId") Long organizationId,
+                                                    String keyword,
                                                     PurchaseOrder purchaseOrder,
                                                     @ApiIgnore @SortDefault(value = PurchaseOrder.FIELD_PURCHASE_ORDER_DATE,
                                                     direction = Sort.Direction.DESC) PageRequest pageRequest,
                                                     LocalDate beginDate, LocalDate endDate) {
-        Page<PurchaseOrder> list = purchaseOrderService.list(organizationId, purchaseOrder, pageRequest, beginDate, endDate);
+        Page<PurchaseOrder> list = purchaseOrderService.list(organizationId, keyword, purchaseOrder, pageRequest, beginDate, endDate);
         return Results.success(list);
     }
 
@@ -101,32 +102,11 @@ public class PurchaseOrderController extends BaseController {
 
     @ApiOperation(value = "导出采购订单")
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
-//    @GetMapping(value = "/export", produces = "application/octet-stream")
     @GetMapping(value = "/export")
     @ExcelExport(value = PurchaseOrderDTO.class, fillType = "single-sheet")
     public ResponseEntity<List<PurchaseOrderDTO>> export(Integer[] purchaseOrderIds,ExportParam exportParam, HttpServletResponse response) {
-//        response.setHeader("content-type","application/octet-stream");
         List<PurchaseOrderDTO> orderList = purchaseOrderService.exportPurchaseOrder(purchaseOrderIds);
         return Results.success(orderList);
-//        ExportParams params = new ExportParams("采购订单表","采购订单表", ExcelType.HSSF);
-//        Workbook workbook = ExcelExportUtil.exportExcel(params, PurchaseOrderDTO.class, orderList);
-//        ServletOutputStream outputStream = null;
-//        try {
-//            response.setHeader("content-type","application/octet-stream");
-//            response.setHeader("content-disposition","attachment;filename=" + URLEncoder.encode("采购订单表.xls","UTF-8"));
-//            outputStream = response.getOutputStream();
-//            workbook.write(outputStream);
-//        } catch (Exception e){
-////            logger.error("EmployeeController===============>{}",e.getMessage());
-//        } finally {
-//            if(null!=outputStream) {
-//                try {
-//                    outputStream.close();
-//                } catch (Exception e){
-////                    logger.error("EmployeeController===============>{}",e.getMessage());
-//                }
-//            }
-//        }
     }
 
     @ApiOperation(value = "导入采购订单")
@@ -149,28 +129,6 @@ public class PurchaseOrderController extends BaseController {
         response.setHeader("Pragma", "public");
         response.setHeader("Content-Disposition", "attachment; filename=".concat(String.valueOf(URLEncoder.encode( "采购订单.pdf", "UTF-8"))));
         purchaseOrderService.exportPurchasePdf(organizationId, purchaseOrderId, response);
-//        OutputStream out = null;
-//        try {
-//
-//            //设置响应格式等
-//            response.setContentType("application/pdf");
-////            response.setHeader("Expires", "0");
-////            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-//            response.setHeader("Content-Disposition", "attachment; filename=" + new String("采购订单.pdf".getBytes(), StandardCharsets.ISO_8859_1));
-////            response.setHeader("Pragma", "public");
-//
-//            purchaseOrderService.exportPurchasePdf(organizationId, purchaseOrderId, response);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if(out != null) {
-//                    out.close();
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
 }

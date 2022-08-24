@@ -143,7 +143,7 @@ public class PurchaseAndSaleServiceImpl extends BaseAppService implements Purcha
         }
 
         for(SaleOrder saleOrder: awaitSaleOrders) {
-            Sale sale = saleRepository.select(Sale.FIELD_SALE_ID, saleOrder.getSaleOrderId()).get(0);
+            Sale sale = saleRepository.select(Sale.FIELD_SALE_ID, saleOrder.getSaleId()).get(0);
 
             String residenceTime = "";
             LocalDateTime updateTime = LocalDateTime.ofInstant(saleOrder.getLastUpdateDate().toInstant(), ZoneId.systemDefault());

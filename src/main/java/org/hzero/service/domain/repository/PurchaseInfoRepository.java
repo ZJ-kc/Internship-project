@@ -22,7 +22,8 @@ public interface PurchaseInfoRepository extends BaseRepository<PurchaseInfo> {
 
     /**
      * 更新物料入库状态
-     * @param purchaseInfoList
+     * @param purchaseOrderId
+     * @param purchaseInfoIds
      */
-    void updateStorageState(List<PurchaseInfo> purchaseInfoList);
+    Boolean updateStorageState(Long purchaseOrderId, Long[] purchaseInfoIds);
 }

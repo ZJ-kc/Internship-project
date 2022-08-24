@@ -45,11 +45,12 @@ public class PurchaseOrderCheckController {
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
     @GetMapping("/paging")
     public ResponseEntity<Page<PurchaseOrder>> list(@PathVariable("organizationId") Long organizationId,
+                                                    String keyword,
                                                     PurchaseOrder purchaseOrder,
                                                     @ApiIgnore @SortDefault(value = PurchaseOrder.FIELD_PURCHASE_ORDER_DATE,
                                                             direction = Sort.Direction.DESC) PageRequest pageRequest,
                                                     LocalDate beginDate, LocalDate endDate) {
-        Page<PurchaseOrder> list = purchaseOrderCheckService.list(organizationId, purchaseOrder, pageRequest, beginDate, endDate);
+        Page<PurchaseOrder> list = purchaseOrderCheckService.list(organizationId, keyword, purchaseOrder, pageRequest, beginDate, endDate);
         return Results.success(list);
     }
 

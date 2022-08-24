@@ -42,10 +42,10 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
     }
 
     @Override
-    public List<PurchaseOrder> getPurchaseOrderPage(Long tenantId, PurchaseOrder purchaseOrder, LocalDate startDate,
+    public List<PurchaseOrder> getPurchaseOrderPage(Long tenantId, String keyword, PurchaseOrder purchaseOrder, LocalDate startDate,
                                                     LocalDate endDate) {
 
-        List<PurchaseOrder> purchaseOrderPage = this.purchaseOrderMapper.getPurchaseOrderPage(tenantId, purchaseOrder, startDate, endDate);
+        List<PurchaseOrder> purchaseOrderPage = this.purchaseOrderMapper.getPurchaseOrderPage(tenantId, keyword, purchaseOrder, startDate, endDate);
         for(PurchaseOrder order: purchaseOrderPage) {
             Supplier supplier = supplierRepository.selectByPrimaryKey(order.getSupplierId());
             Purchase purchase = purchaseRepository.selectByPrimaryKey(order.getPurchaseId());
@@ -112,9 +112,9 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
                 Material material = materialRepository.select(Material.FIELD_MATERIAL_ID, detail.getMaterialId()).get(0);
 
                 purchaseInfoDTO.setMaterialCode(material.getMaterialCode());
-                purchaseInfoDTO.setMaterialPrice(material.getMaterialPrice());
+                purchaseInfoDTO.setMaterialPrice(order.getCurrency() + material.getMaterialPrice());
                 purchaseInfoDTO.setPurchaseInfoRemark(detail.getPurchaseInfoRemark());
-                purchaseInfoDTO.setPurchaseInfoSumPrice(detail.getPurchaseInfoSumPrice());
+                purchaseInfoDTO.setPurchaseInfoSumPrice(order.getCurrency() + detail.getPurchaseInfoSumPrice());
                 purchaseInfoDTO.setPurchaseLineNumber(detail.getPurchaseLineNumber());
                 purchaseInfoDTO.setPurchaseNumber(detail.getPurchaseNumber());
 
@@ -129,7 +129,19 @@ public class PurchaseOrderRepositoryImpl extends BaseRepositoryImpl<PurchaseOrde
             purchaseOrderDTO.setSupplierName(supplier.getSupplierName());
             purchaseOrderDTO.setPurchaseOrderDate(order.getPurchaseOrderDate());
             purchaseOrderDTO.setPurchaseInfoList(purchaseInfoDTOList);
-            purchaseOrderDTO.setPurchaseOrderState(order.getPurchaseOrderState() == 0 ? "未提交":"已提交");
+
+            String orderState = "";
+            Integer purchaseOrderState = order.getPurchaseOrderState();
+            if(0 == purchaseOrderState) {
+                orderState = "未提交";
+            } else if(1 == purchaseOrderState) {
+                orderState = "已提交";
+            } else if(2 == purchaseOrderState) {
+                orderState = "审批通过";
+            } else if(3 == purchaseOrderState) {
+                orderState = "审批拒绝";
+            }
+            purchaseOrderDTO.setPurchaseOrderState(orderState);
 
             purchaseOrderDTOList.add(purchaseOrderDTO);
         }

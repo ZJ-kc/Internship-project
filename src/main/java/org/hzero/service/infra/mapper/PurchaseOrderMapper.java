@@ -25,7 +25,7 @@ public interface PurchaseOrderMapper extends BaseMapper<PurchaseOrder> {
      * @param endDate
      * @return
      */
-    List<PurchaseOrder> getPurchaseOrderPage(@Param("tenantId") Long tenantId, @Param("purchaseOrder") PurchaseOrder purchaseOrder, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<PurchaseOrder> getPurchaseOrderPage(@Param("tenantId") Long tenantId, @Param("keyword") String keyword, @Param("purchaseOrder") PurchaseOrder purchaseOrder, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     /**
      *  根据订单id查询采购订单

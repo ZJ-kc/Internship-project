@@ -51,8 +51,8 @@ public class PurchaseInfoController extends BaseController {
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
     @PutMapping("/put-storage")
     public ResponseEntity<?> putStorage(@PathVariable("organizationId") Long organizationId,
-                                        @RequestBody PurchaseOrder purchaseOrder) {
-        return purchaseInfoService.putStorage(organizationId, purchaseOrder);
+                                        Long purchaseOrderId, Long[] purchaseInfoIds) {
+        return purchaseInfoService.putStorage(organizationId, purchaseOrderId, purchaseInfoIds);
     }
 
 

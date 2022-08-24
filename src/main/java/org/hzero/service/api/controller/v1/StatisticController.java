@@ -36,7 +36,7 @@ public class StatisticController {
         this.purchaseAndSaleService = purchaseAndSaleService;
     }
 
-    @ApiOperation(value = "查询采购、销售金额")
+    @ApiOperation(value = "统计-查询采购、销售金额")
     @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
     @GetMapping("/money-board")
     public ResponseEntity<MoneyBoardDTO> getMoneyBoard() {

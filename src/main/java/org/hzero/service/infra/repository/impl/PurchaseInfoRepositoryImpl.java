@@ -1,6 +1,9 @@
 package org.hzero.service.infra.repository.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hzero.mybatis.base.impl.BaseRepositoryImpl;
 import org.hzero.mybatis.domian.Condition;
@@ -32,12 +35,22 @@ public class PurchaseInfoRepositoryImpl extends BaseRepositoryImpl<PurchaseInfo>
     }
 
     @Override
-    public void updateStorageState(List<PurchaseInfo> purchaseInfoList) {
-
-        for(PurchaseInfo purchaseInfo: purchaseInfoList) {
-            PurchaseInfo info = purchaseInfoMapper.selectByPrimaryKey(purchaseInfo.getPurchaseInfoId());
+    public Boolean updateStorageState(Long purchaseOrderId, Long[] purchaseInfoIds) {
+        // 验证物料详情数据是否存在
+        List<Long> infoIds = this.select(PurchaseInfo.FIELD_PURCHASE_ORDER_ID, purchaseOrderId)
+                .stream()
+                .map(PurchaseInfo::getPurchaseInfoId)
+                .collect(Collectors.toList());
+        List<Long> purchaseInfoList = new ArrayList<>(Arrays.asList(purchaseInfoIds));
+        purchaseInfoList.removeAll(infoIds);
+        if(purchaseInfoList.size() > 0) {
+            return false;
+        }
+        for(Long purchaseInfoId: purchaseInfoIds) {
+            PurchaseInfo info = purchaseInfoMapper.selectByPrimaryKey(purchaseInfoId);
             info.setStorageState(1);
             purchaseInfoMapper.updateOptional(info, PurchaseInfo.FIELD_STORAGE_STATE);
         }
+        return true;
     }
 }
