@@ -21,8 +21,7 @@ import org.hzero.service.domain.entity.PurchaseInfo;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PurchaseOrderDTO {
 
-
-    @ExcelColumn(zh = "订单编号", en = "Order Number")
+    @ExcelColumn(zh = "订单编号", en = "Order Number", showInChildren = true)
     private String purchaseOrderNumber;
 
     @ExcelColumn(zh = "供应商", en = "Supplier Name")
@@ -37,7 +36,7 @@ public class PurchaseOrderDTO {
     @ExcelColumn(zh = "订单日期", en = "Order Date", pattern = BaseConstants.Pattern.DATE)
     private LocalDate purchaseOrderDate;
 
-    @ExcelColumn(zh = "订单详情", en = "Order details")
+    @ExcelColumn(zh = "订单详情", en = "Order details", child = true)
     private List<PurchaseInfoDTO> purchaseInfoList;
 
     public String getPurchaseOrderNumber() {

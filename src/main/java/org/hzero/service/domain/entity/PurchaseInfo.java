@@ -74,14 +74,16 @@ public class PurchaseInfo extends AuditDomain {
     @ApiModelProperty(value = "此采购详情备注", required = true)
     private String purchaseInfoRemark;
 
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
     @Transient
-    private String materialCode;
-    @Transient
-    private String materialDescription;
-    @Transient
-    private BigDecimal materialPrice;
-    @Transient
-    private String materialUnit;
+    private Material material;
 
 //
 // 非数据库字段
@@ -185,38 +187,6 @@ public class PurchaseInfo extends AuditDomain {
     public PurchaseInfo setPurchaseInfoRemark(String purchaseInfoRemark) {
         this.purchaseInfoRemark = purchaseInfoRemark;
         return this;
-    }
-
-    public String getMaterialCode() {
-        return materialCode;
-    }
-
-    public void setMaterialCode(String materialCode) {
-        this.materialCode = materialCode;
-    }
-
-    public String getMaterialDescription() {
-        return materialDescription;
-    }
-
-    public void setMaterialDescription(String materialDescription) {
-        this.materialDescription = materialDescription;
-    }
-
-    public BigDecimal getMaterialPrice() {
-        return materialPrice;
-    }
-
-    public void setMaterialPrice(BigDecimal materialPrice) {
-        this.materialPrice = materialPrice;
-    }
-
-    public String getMaterialUnit() {
-        return materialUnit;
-    }
-
-    public void setMaterialUnit(String materialUnit) {
-        this.materialUnit = materialUnit;
     }
 
     @Override

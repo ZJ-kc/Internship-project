@@ -5,24 +5,35 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
+import org.hzero.boot.message.MessageClient;
+import org.hzero.boot.message.entity.Receiver;
 import org.hzero.mybatis.domian.Condition;
 import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.HffServiceApplication;
-import org.hzero.service.domain.entity.Client;
+import org.hzero.service.api.dto.BackLogDTO;
+import org.hzero.service.api.dto.BestSaleDTO;
+import org.hzero.service.api.dto.MoneyBoardDTO;
+import org.hzero.service.api.dto.PurchaseAndSaleStateDTO;
+import org.hzero.service.app.service.PurchaseAndSaleService;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
-import org.hzero.service.domain.repository.ClientRepository;
 import org.hzero.service.domain.repository.PurchaseInfoRepository;
 import org.hzero.service.domain.repository.PurchaseOrderRepository;
+import org.hzero.service.infra.util.PriceComputeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.hzero.boot.message.MessageClient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -82,20 +93,76 @@ public class test {
         System.out.println(purchaseOrderList);
     }
 
-    @Autowired
-    private ClientRepository clientRepository;
-
     @Test
     public void test3() {
-        Client client = clientRepository.selectByCondition(
-                Condition.builder(Client.class)
-                        .andWhere(
-                                Sqls.custom()
-                                        .andEqualTo(Client.FIELD_COMPANY_ID, 1)
-                                        .andEqualTo(Client.FIELD_CLIENT_NAME, "王伟")
-                        )
-                        .build()
-        ).get(0);
-        System.out.println(client);
+        LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime today_end = LocalDateTime.of(LocalDate.now().plusDays(1L), LocalTime.MIN);
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.selectByCondition(
+                Condition.builder(PurchaseOrder.class).andWhere(
+                        Sqls.custom()
+                                .andEqualTo(PurchaseOrder.FIELD_PURCHASE_ORDER_STATE, 2)
+                                .andBetween(PurchaseOrder.FIELD_PURCHASE_ORDER_DATE, today_start, today_end)
+                ).build()
+        );
+
+        BigDecimal bigDecimal = PriceComputeUtils.computePurchaseOrderPrice(purchaseOrders);
+        System.out.println(bigDecimal);
+
+        System.out.println(purchaseOrders);
+    }
+
+    @Test
+    public void test4() {
+        System.out.println(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
+        System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstDayOfYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfNextYear()));
+        System.out.println(LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth()));
+    }
+
+    @Resource
+    private PurchaseAndSaleService purchaseAndSaleService;
+
+    @Test
+    public void test5() {
+        MoneyBoardDTO moneyBoard = purchaseAndSaleService.getMoneyBoard();
+        System.out.println(moneyBoard);
+    }
+
+    @Test
+    public void test6() {
+        List<PurchaseAndSaleStateDTO> list = purchaseAndSaleService.listPurchaseSaleState();
+        System.out.println(list);
+    }
+
+    @Test
+    public void test7() {
+        List<BestSaleDTO> bestSaleDTOS = purchaseAndSaleService.listBestSale();
+        System.out.println(bestSaleDTOS);
+    }
+
+    @Test
+    public void test8() {
+        List<BackLogDTO> backLogDTOS = purchaseAndSaleService.listBacklog();
+        System.out.println(backLogDTOS);
+    }
+
+    @Resource
+    private MessageClient messageClient;
+
+    @Test
+    public void test9() {
+        long tenantId = 355L;
+        // 邮箱账户编码
+        String serverCode= "PURCHASE";
+        // 消息模板编码
+        String messageTemplateCode="HWKF_EMAIL_APPROVE";
+        // 指定消息接收人邮箱
+        Receiver receiver = new Receiver().setEmail("541699620@qq.com");
+        List<Receiver> receiverList = Collections.singletonList(receiver);
+        // 消息模板参数
+        Map<String, String> args = new HashMap<>(2);
+        args.put("param", "123456");
+        messageClient.sendEmail(tenantId, serverCode, messageTemplateCode, receiverList, null);
     }
 }

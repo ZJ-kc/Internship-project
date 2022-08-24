@@ -8,6 +8,7 @@ import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.MaterialService;
 import org.hzero.service.config.SwaggerApiConfig;
 import org.hzero.service.domain.entity.Material;
+import org.hzero.service.domain.entity.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,4 @@ public class MaterialController extends BaseController {
     public ResponseEntity<List<Material>> list() {
         return materialService.list();
     }
-
-
 }

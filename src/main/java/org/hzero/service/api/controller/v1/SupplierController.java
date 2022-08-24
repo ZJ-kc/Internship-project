@@ -1,5 +1,7 @@
 package org.hzero.service.api.controller.v1;
 
+import java.util.List;
+
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.service.app.service.SupplierService;
@@ -33,5 +35,10 @@ public class SupplierController extends BaseController {
         this.supplierService = supplierService;
     }
 
-
+    @ApiOperation(value = "查询所有供应商")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @GetMapping("/list")
+    public ResponseEntity<List<Supplier>> list() {
+        return supplierService.list();
+    }
 }

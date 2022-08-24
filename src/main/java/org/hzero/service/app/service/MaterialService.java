@@ -2,12 +2,12 @@ package org.hzero.service.app.service;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import org.hzero.service.domain.entity.Material;
 
 import io.choerodon.core.domain.Page;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+
 /**
  * 应用服务
  *
@@ -17,7 +17,6 @@ public interface MaterialService {
 
     /**
      * 查询所有物料信息
-     * LOV
      * @return
      */
     ResponseEntity<List<Material>> list();

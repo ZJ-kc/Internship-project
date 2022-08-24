@@ -1,9 +1,7 @@
 package org.hzero.service.infra.listener;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,13 +9,11 @@ import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import org.hzero.excel.service.ExcelReadListener;
-import org.hzero.service.app.service.impl.PurchaseOrderServiceImpl;
 import org.hzero.service.domain.entity.Purchase;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import org.hzero.service.domain.entity.Store;
 import org.hzero.service.domain.entity.Supplier;
 import org.hzero.service.domain.repository.*;
-import org.hzero.service.infra.util.PurchaseInfoImportConstantUtils;
 import org.hzero.service.infra.util.PurchaseOrderImportConstantUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +51,7 @@ public class PurchaseOrderExcelListener implements ExcelReadListener {
         System.out.println(entries);
         Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
         PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setOrganizationId(355L);
         while (iterator.hasNext()) {
             Map.Entry<String, Object> entry = iterator.next();
             String key = entry.getKey();
@@ -96,8 +93,18 @@ public class PurchaseOrderExcelListener implements ExcelReadListener {
                 continue;
             }
             if(PurchaseOrderImportConstantUtils.FIELD_PURCHASE_ORDER_STATE.equals(key)) {
-                purchaseOrder.setPurchaseOrderState("未提交".equals((String)entry.getValue()) ? 0 : 1);
-                continue;
+                String orderState = (String)entry.getValue();
+                int state = -1;
+                if("未提交".equals(orderState)) {
+                    state = 0;
+                } else if("待审批".equals(orderState)) {
+                    state = 1;
+                } else if("审批通过".equals(orderState)) {
+                    state = 2;
+                } else if("审批拒绝".equals(orderState)) {
+                    state = 3;
+                }
+                purchaseOrder.setPurchaseOrderState(state);
             }
         }
         purchaseOrderRepository.insertSelective(purchaseOrder);

@@ -45,10 +45,11 @@ public class PurchaseInfoServiceImpl extends BaseAppService implements PurchaseI
         List<PurchaseInfo> purchaseInfoList = this.purchaseInfoRepository.getPurchaseOrderDetailsByOrderId(purchaseOrderId);
         for(PurchaseInfo purchaseInfo: purchaseInfoList) {
             Material material = materialRepository.selectByPrimaryKey(purchaseInfo.getMaterialId());
-            purchaseInfo.setMaterialCode(material.getMaterialCode());
-            purchaseInfo.setMaterialDescription(material.getMaterialDescription());
-            purchaseInfo.setMaterialPrice(material.getMaterialPrice());
-            purchaseInfo.setMaterialUnit(material.getMaterialUnit());
+//            purchaseInfo.setMaterialCode(material.getMaterialCode());
+//            purchaseInfo.setMaterialDescription(material.getMaterialDescription());
+//            purchaseInfo.setMaterialPrice(material.getMaterialPrice());
+//            purchaseInfo.setMaterialUnit(material.getMaterialUnit());
+            purchaseInfo.setMaterial(material);
         }
         return Results.success(purchaseInfoList);
     }
@@ -56,12 +57,15 @@ public class PurchaseInfoServiceImpl extends BaseAppService implements PurchaseI
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> putStorage(Long organizationId, PurchaseOrder purchaseOrder) {
-        if(null == purchaseOrder || null == purchaseOrder.getChildren() || purchaseOrder.getChildren().size() == 0) {
+    public ResponseEntity<?> putStorage(Long organizationId, Long purchaseOrderId, Long[] purchaseInfoIds) {
+        if(null == purchaseOrderId || purchaseInfoIds.length == 0) {
             return Results.error("订单或物料信息不能为空");
         }
-        purchaseInfoRepository.updateStorageState(purchaseOrder.getChildren());
-        repertoryRepository.addStorage(purchaseOrder);
+        Boolean updateStorageState = purchaseInfoRepository.updateStorageState(purchaseOrderId, purchaseInfoIds);
+        if(!updateStorageState) {
+            return Results.error("物料信息不存在");
+        }
+        repertoryRepository.addStorage(purchaseOrderId, purchaseInfoIds);
         return Results.success("入库成功");
     }
 }

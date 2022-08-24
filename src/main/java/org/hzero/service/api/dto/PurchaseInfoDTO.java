@@ -23,13 +23,13 @@ public class PurchaseInfoDTO {
     private String materialCode;
 
     @ExcelColumn(zh = "单价", en = "Price")
-    private BigDecimal materialPrice;
+    private String materialPrice;
 
     @ExcelColumn(zh = "采购数量", en = "Purchase Number")
     private Long purchaseNumber;
 
     @ExcelColumn(zh = "金额", en = "Sum Price")
-    private BigDecimal purchaseInfoSumPrice;
+    private String purchaseInfoSumPrice;
 
     @ExcelColumn(zh = "备注", en = "Remark")
     private String purchaseInfoRemark;
@@ -38,9 +38,8 @@ public class PurchaseInfoDTO {
         return purchaseLineNumber;
     }
 
-    public PurchaseInfoDTO setPurchaseLineNumber(Long purchaseLineNumber) {
+    public void setPurchaseLineNumber(Long purchaseLineNumber) {
         this.purchaseLineNumber = purchaseLineNumber;
-        return this;
     }
 
     public String getMaterialCode() {
@@ -52,11 +51,11 @@ public class PurchaseInfoDTO {
         return this;
     }
 
-    public BigDecimal getMaterialPrice() {
+    public String getMaterialPrice() {
         return materialPrice;
     }
 
-    public PurchaseInfoDTO setMaterialPrice(BigDecimal materialPrice) {
+    public PurchaseInfoDTO setMaterialPrice(String materialPrice) {
         this.materialPrice = materialPrice;
         return this;
     }
@@ -70,11 +69,11 @@ public class PurchaseInfoDTO {
         return this;
     }
 
-    public BigDecimal getPurchaseInfoSumPrice() {
+    public String getPurchaseInfoSumPrice() {
         return purchaseInfoSumPrice;
     }
 
-    public PurchaseInfoDTO setPurchaseInfoSumPrice(BigDecimal purchaseInfoSumPrice) {
+    public PurchaseInfoDTO setPurchaseInfoSumPrice(String purchaseInfoSumPrice) {
         this.purchaseInfoSumPrice = purchaseInfoSumPrice;
         return this;
     }

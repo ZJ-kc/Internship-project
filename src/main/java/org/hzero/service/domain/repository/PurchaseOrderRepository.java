@@ -18,12 +18,13 @@ public interface PurchaseOrderRepository extends BaseRepository<PurchaseOrder> {
     /**
      * 分页查询采购订单
      * @param tenantId
+     * @param keyword
      * @param purchaseOrder
      * @param startDate
      * @param endDate
      * @return
      */
-    List<PurchaseOrder> getPurchaseOrderPage(Long tenantId, PurchaseOrder purchaseOrder, LocalDate startDate, LocalDate endDate);
+    List<PurchaseOrder> getPurchaseOrderPage(Long tenantId, String keyword, PurchaseOrder purchaseOrder, LocalDate startDate, LocalDate endDate);
 
     /**
      * 保存采购订单

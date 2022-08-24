@@ -1,5 +1,6 @@
 package org.hzero.service.api.controller.v1;
 
+import io.choerodon.core.oauth.DetailsHelper;
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
