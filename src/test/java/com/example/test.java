@@ -165,4 +165,15 @@ public class test {
         args.put("param", "123456");
         messageClient.sendEmail(tenantId, serverCode, messageTemplateCode, receiverList, null);
     }
+
+    @Test
+    public void test10() {
+//        PurchaseOrder order = purchaseOrderRepository.selectByPrimaryKey(1L);
+//        order.setPurchaseOrderSumPrice(new BigDecimal(123456));
+
+//        PurchaseOrder order = new PurchaseOrder().setStoreAddress("未知地点");
+//        purchaseOrderRepository.insertSelective(order);
+        purchaseOrderRepository.deleteByPrimaryKey(65L);
+//        purchaseOrderRepository.updateByPrimaryKey(order);
+    }
 }

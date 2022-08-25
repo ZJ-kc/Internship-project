@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.hzero.service.annotation.OpenDataSourceAnnotation;
 import org.springframework.stereotype.Repository;
 
 import org.hzero.service.domain.entity.SaleOrder;
@@ -15,6 +16,7 @@ import io.choerodon.mybatis.common.BaseMapper;
  * @author yuji.sun@zknow.com 2022-08-20 14:22:57
  */
 @Repository
+@OpenDataSourceAnnotation(value = "hff_service")
 public interface SaleOrderMapper extends BaseMapper<SaleOrder> {
 
     /**

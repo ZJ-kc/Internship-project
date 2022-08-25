@@ -3,6 +3,7 @@ package org.hzero.service.infra.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.hzero.service.annotation.OpenDataSourceAnnotation;
 import org.hzero.service.domain.entity.Repertory;
 import io.choerodon.mybatis.common.BaseMapper;
 import org.hzero.service.domain.vo.RepertoryParam;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author yuji.sun@zknow.com 2022-08-20 14:22:57
  */
 @Repository
+@OpenDataSourceAnnotation(value = "hff_service")
 public interface RepertoryMapper extends BaseMapper<Repertory> {
 
     /**

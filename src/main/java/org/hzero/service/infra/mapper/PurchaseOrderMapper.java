@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.hzero.service.annotation.OpenDataSourceAnnotation;
 import org.hzero.service.domain.entity.PurchaseInfo;
 import org.hzero.service.domain.entity.PurchaseOrder;
 import io.choerodon.mybatis.common.BaseMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
  * @author yuji.sun@zknow.com 2022-08-20 14:22:57
  */
 @Repository
+@OpenDataSourceAnnotation(value = "hff_service")
 public interface PurchaseOrderMapper extends BaseMapper<PurchaseOrder> {
     /**
      * 查询采购订单分页
