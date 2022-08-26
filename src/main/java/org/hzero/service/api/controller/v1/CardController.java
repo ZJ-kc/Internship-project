@@ -40,14 +40,14 @@ public class CardController extends BaseController {
     }
 
     @ApiOperation(value="查询所有card坐标信息")
-    @Permission(level=ResourceLevel.ORGANIZATION,permissionPublic=true)
+    @Permission(level=ResourceLevel.ORGANIZATION, permissionLogin=true)
     @GetMapping("/card/list")
     public ResponseEntity<List<CardDTO>> listCards(@PathVariable("organizationId") Long organizationId){
         return Results.success(cardRepository.listCards());
     }
 
     @ApiOperation(value="批量插入坐标信息")
-    @Permission(level=ResourceLevel.ORGANIZATION,permissionPublic = true)
+    @Permission(level=ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PostMapping("/card/add-batch")
     public ResponseEntity<?> addBatchCard(@PathVariable("organizationId") Long organizationId,
                                @RequestBody List<Card> cards){

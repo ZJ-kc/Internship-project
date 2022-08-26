@@ -42,7 +42,7 @@ public class ClientController extends BaseController {
     }
 
     @ApiOperation(value = "查询所有客户")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/list")
     public ResponseEntity<List<Client>> list() {
         return clientService.list();

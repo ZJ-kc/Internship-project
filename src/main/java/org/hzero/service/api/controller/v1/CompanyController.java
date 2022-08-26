@@ -41,7 +41,7 @@ public class CompanyController extends BaseController {
     }
 
     @ApiOperation(value = "查询所有公司")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/list")
     public ResponseEntity<List<Company>> list() {
         return companyService.list();

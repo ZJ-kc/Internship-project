@@ -40,7 +40,7 @@ public class PurchaseInfoController extends BaseController {
     }
 
     @ApiOperation(value = "根据订单id查询订单详情数据")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/purchase-order-details/by-order-id")
     public ResponseEntity<List<PurchaseInfo>> getPurchaseOrderDetailsByOrderId(@PathVariable("organizationId") Long organizationId,
                                                                                @RequestParam Long purchaseOrderId) {
@@ -48,7 +48,7 @@ public class PurchaseInfoController extends BaseController {
     }
 
     @ApiOperation(value = "物料入库")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/put-storage")
     public ResponseEntity<?> putStorage(@PathVariable("organizationId") Long organizationId,
                                         Long purchaseOrderId, Long[] purchaseInfoIds) {

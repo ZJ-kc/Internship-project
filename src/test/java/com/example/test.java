@@ -23,15 +23,17 @@ import org.hzero.service.api.dto.BackLogDTO;
 import org.hzero.service.api.dto.BestSaleDTO;
 import org.hzero.service.api.dto.MoneyBoardDTO;
 import org.hzero.service.api.dto.PurchaseAndSaleStateDTO;
-import org.hzero.service.app.service.PurchaseAndSaleService;
-import org.hzero.service.domain.entity.PurchaseInfo;
-import org.hzero.service.domain.entity.PurchaseOrder;
+import org.hzero.service.app.service.*;
+import org.hzero.service.domain.entity.*;
 import org.hzero.service.domain.repository.PurchaseInfoRepository;
 import org.hzero.service.domain.repository.PurchaseOrderRepository;
+import org.hzero.service.domain.repository.PurchaseRepository;
+import org.hzero.service.domain.repository.RoleRepository;
 import org.hzero.service.infra.util.PriceComputeUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.hzero.boot.message.MessageClient;
 
@@ -175,5 +177,49 @@ public class test {
 //        purchaseOrderRepository.insertSelective(order);
         purchaseOrderRepository.deleteByPrimaryKey(65L);
 //        purchaseOrderRepository.updateByPrimaryKey(order);
+    }
+
+    @Resource
+    private PurchaseService purchaseService;
+
+    @Resource
+    private SaleService saleService;
+    @Resource
+    private RoleRepository roleRepository;
+
+    @Test
+    public void test11() {
+//        saleService.list(355L, )
+        List<Role> roles = roleRepository.selectAll();
+        System.out.println(roles);
+    }
+
+    @Resource
+    private PurchaseOrderService purchaseOrderService;
+    @Resource
+    private PurchaseOrderCheckService purchaseOrderCheckService;
+
+    @Test
+    public void test12() {
+        purchaseOrderService.updateOrderState(355L, 1L);
+        purchaseOrderCheckService.checkOrderAgree(355L, 1L);
+    }
+
+    @Test
+    public void test13() {
+//        ResponseEntity<List<Purchase>> list = purchaseService.list(355L, 9L);
+//        System.out.println(list.getBody());
+    }
+
+    @Resource
+    private SaleOrderService saleOrderService;
+
+    @Resource
+    private  SaleOrderCheckService saleOrderCheckService;
+
+    @Test
+    public void test14(){
+        saleOrderService.updateOrderState(355L,4L);
+        saleOrderCheckService.checkOrderAgree(355L,4L);
     }
 }

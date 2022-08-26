@@ -1,10 +1,14 @@
 package org.hzero.service.app.service.impl;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.hzero.service.domain.entity.Material;
-import org.hzero.service.domain.repository.MaterialRepository;
+import org.hzero.boot.message.entity.Receiver;
+import org.hzero.service.domain.entity.*;
+import org.hzero.service.domain.repository.*;
 import org.hzero.service.infra.mapper.SaleOrderMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,12 +24,7 @@ import org.hzero.mybatis.util.Sqls;
 import org.hzero.service.app.service.SaleInfoService;
 import org.hzero.service.app.service.SaleOrderCheckService;
 import org.hzero.service.app.service.SaleOrderService;
-import org.hzero.service.domain.entity.Repertory;
-import org.hzero.service.domain.entity.SaleInfo;
-import org.hzero.service.domain.entity.SaleOrder;
-import org.hzero.service.domain.repository.RepertoryRepository;
-import org.hzero.service.domain.repository.SaleInfoRepository;
-import org.hzero.service.domain.repository.SaleOrderRepository;
+import org.hzero.boot.message.MessageClient;
 
 /**
  * @Author: zj
@@ -42,12 +41,15 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
     private final RepertoryRepository repertoryRepository;
     private final MaterialRepository materialRepository;
     private final SaleOrderMapper saleOrderMapper;
+    private final SaleRepository saleRepository;
+    private final UserRepository userRepository;
+    private final MessageClient messageClient;
 
     public SaleOrderCheckServiceImpl(SaleOrderService saleOrderService,
                                      SaleInfoService saleInfoService,
                                      SaleOrderRepository saleOrderRepository,
                                      SaleInfoRepository saleInfoRepository,
-                                     RepertoryRepository repertoryRepository, MaterialRepository materialRepository, SaleOrderMapper saleOrderMapper) {
+                                     RepertoryRepository repertoryRepository, MaterialRepository materialRepository, SaleOrderMapper saleOrderMapper, SaleRepository saleRepository, UserRepository userRepository, MessageClient messageClient) {
         this.saleOrderService = saleOrderService;
         this.saleInfoService = saleInfoService;
         this.saleOrderRepository = saleOrderRepository;
@@ -55,6 +57,9 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
         this.repertoryRepository = repertoryRepository;
         this.materialRepository = materialRepository;
         this.saleOrderMapper = saleOrderMapper;
+        this.saleRepository = saleRepository;
+        this.userRepository = userRepository;
+        this.messageClient = messageClient;
     }
 
     @Override
@@ -122,7 +127,7 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
             repertory.setAbleRepertoryNumber(repertory.getAbleRepertoryNumber()-saleInfo.getSaleNumber());
             repertory.setWaitRepertoryNumber(repertory.getWaitRepertoryNumber()+saleInfo.getSaleNumber());
 
-            repertoryRepository.updateOptional(repertory, Repertory.FIELD_ABLE_REPERTORY_NUMBER, Repertory.FIELD_ABLE_REPERTORY_NUMBER);
+            repertoryRepository.updateOptional(repertory, Repertory.FIELD_ABLE_REPERTORY_NUMBER, Repertory.FIELD_WAIT_REPERTORY_NUMBER);
         }
 
 
@@ -130,6 +135,23 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
 
         int count = saleOrderRepository.updateOptional(order, SaleOrder.FIELD_SALE_ORDER_STATE);
         if(1 == count) {
+//            Sale sale = saleRepository.selectByPrimaryKey(order.getSaleId());
+//            User user=userRepository.selectByPrimaryKey((sale.getUserId()));
+//
+//            //：邮箱编码
+//            String serverCode="SALE";
+//
+//            //消息模板
+//            String messageTemplateCode="HFF_EMAIL_APPROVE";
+//
+//            //指定消息接收人邮箱
+//            Receiver receiver =new Receiver().setEmail(user.getEmail());
+//            List<Receiver> receiverList= Collections.singletonList(receiver);
+//            //消息模板参数
+//            Map<String,String> args=new HashMap<>(2);
+//            args.put("param","销售");
+//            messageClient.sendEmail(tenantId,serverCode,messageTemplateCode,receiverList,args);
+
             return Results.success("success");
         }
         return Results.error("error");
@@ -152,6 +174,23 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
 
         int count = saleOrderRepository.updateOptional(order, SaleOrder.FIELD_SALE_ORDER_STATE);
         if(1 == count) {
+
+            Sale sale = saleRepository.selectByPrimaryKey(order.getSaleId());
+            User user=userRepository.selectByPrimaryKey((sale.getUserId()));
+
+            //：邮箱编码
+            String serverCode="SALE";
+
+            //消息模板
+            String messageTemplateCode="HFF_EMAIL_REJECT";
+
+            //指定消息接收人邮箱
+            Receiver receiver =new Receiver().setEmail(user.getEmail());
+            List<Receiver> receiverList= Collections.singletonList(receiver);
+            //消息模板参数
+            Map<String,String> args=new HashMap<>(2);
+            args.put("param","销售");
+            messageClient.sendEmail(tenantId,serverCode,messageTemplateCode,receiverList,args);
             return Results.success("success");
         }
         return Results.error("error");

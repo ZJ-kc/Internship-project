@@ -3,11 +3,13 @@ package org.hzero.service.app.service.impl;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+
+import org.hzero.boot.message.MessageClient;
 import org.hzero.core.base.BaseAppService;
 
 import org.hzero.core.util.Results;
@@ -20,6 +22,7 @@ import org.hzero.service.app.service.SaleInfoService;
 import org.hzero.service.app.service.SaleOrderService;
 import org.hzero.service.domain.entity.*;
 import org.hzero.service.domain.repository.*;
+import org.hzero.service.infra.constant.RoleCodeConstant;
 import org.hzero.service.infra.listener.SaleInfoExcelListener;
 import org.hzero.service.infra.listener.SaleOrderExcelListener;
 import org.hzero.service.infra.mapper.SaleOrderMapper;
@@ -41,6 +44,7 @@ import io.choerodon.core.domain.Page;
 import io.choerodon.mybatis.pagehelper.PageHelper;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;
 import com.itextpdf.text.pdf.BaseFont;
+import org.hzero.boot.message.entity.Receiver;
 
 /**
  * 应用服务默认实现
@@ -62,6 +66,10 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
     private final ClientRepository clientRepository;
 
     private final SaleInfoService saleInfoService;
+    private final RoleRepository roleRepository;
+    private final MemberRoleRepository memberRoleRepository;
+    private final UserRepository userRepositoryitory;
+    private final MessageClient messageClient;
 
     @Autowired
     public SaleOrderServiceImpl(SaleOrderRepository saleOrderRepository,
@@ -72,7 +80,11 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
                                 SaleRepository saleRepository,
                                 CompanyRepository companyRepository,
                                 StoreRepository storeRepository,
-                                ClientRepository clientRepository, SaleInfoService saleInfoService) {
+                                ClientRepository clientRepository,
+                                SaleInfoService saleInfoService,
+                                RoleRepository roleRepository,
+                                MemberRoleRepository memberRoleRepository,
+                                UserRepository userRepositoryitory, MessageClient messageClient) {
         this.saleOrderRepository = saleOrderRepository;
         this.saleOrderMapper = saleOrderMapper;
         this.saleInfoRepository = saleInfoRepository;
@@ -82,6 +94,10 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
         this.storeRepository = storeRepository;
         this.clientRepository=clientRepository;
         this.saleInfoService = saleInfoService;
+        this.roleRepository = roleRepository;
+        this.memberRoleRepository = memberRoleRepository;
+        this.userRepositoryitory = userRepositoryitory;
+        this.messageClient = messageClient;
     }
 
     @Override
@@ -131,6 +147,36 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
 
         int count = saleOrderRepository.updateOptional(order, SaleOrder.FIELD_SALE_ORDER_STATE);
         if(1 == count) {
+            //发送提交信息
+            //根据租户id和销售经理code查询对应角色
+//            Role saleManageRole = roleRepository.selectByCondition(
+//                    Condition.builder(Role.class)
+//                            .andWhere(
+//                                    Sqls.custom()
+//                                            .andEqualTo(Role.FIELD_H_TENANT_ID,organizationId)
+//                                            .andEqualTo(Role.FIELD_CODE, RoleCodeConstant.ROLE_SALE_MANAGE_CODE)
+//                            )
+//                            .build()
+//            ).get(0);
+//            //根据销售管理员角色获取用户id
+//            Long userId = memberRoleRepository.select(MemberRole.FIELD_ROLE_ID,saleManageRole.getId()).get(0).getMemberId();
+//            User user=userRepositoryitory.selectByPrimaryKey(userId);
+//
+//            //邮箱编码
+//            String serverCode="SALE";
+//
+//            //消息模板编码
+//            String messageTemplateCode="HFF_EMAIL_CODE";
+//            //指定消息接收人邮箱
+//            Receiver receiver=new Receiver().setEmail(user.getEmail());
+//            List<Receiver> receiverList= Collections.singletonList(receiver);
+//
+//            //消息模板参数
+//            Map<String,String> args=new HashMap<>(2);
+//            args.put("param","销售");
+//            messageClient.sendEmail(organizationId,serverCode,messageTemplateCode,receiverList,args);
+
+
             return Results.success("提交成功");
         }
         return Results.error();

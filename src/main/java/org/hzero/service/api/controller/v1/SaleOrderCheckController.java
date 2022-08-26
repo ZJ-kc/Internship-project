@@ -72,7 +72,7 @@ public class SaleOrderCheckController {
     }
 
     @ApiOperation(value = "审核通过")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/check-order/agree")
     public ResponseEntity<?> checkOrderAgree(@PathVariable("organizationId") Long organizationId,
                                              Long saleOrderId) {
@@ -80,7 +80,7 @@ public class SaleOrderCheckController {
     }
 
     @ApiOperation(value = "审核拒绝")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/check-order/reject")
     public ResponseEntity<?> checkOrderReject(@PathVariable("organizationId") Long organizationId,
                                               Long saleOrderId) {

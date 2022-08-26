@@ -44,6 +44,9 @@ public class MybatisInterceptor implements Interceptor {
 
         // 获取注解
         OpenDataSourceAnnotation annotation = Class.forName(className).getAnnotation(OpenDataSourceAnnotation.class);
+        if(null == annotation) {
+            return invocation.proceed();
+        }
         String datasourceName = annotation.value();
 
         BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");

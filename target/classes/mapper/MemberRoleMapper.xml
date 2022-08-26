@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.service.infra.mapper.MemberRoleMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="org.hzero.service.domain.entity.MemberRole">
+        <result column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="role_id" property="roleId" jdbcType="DECIMAL"/>
+        <result column="member_id" property="memberId" jdbcType="DECIMAL"/>
+        <result column="member_type" property="memberType" jdbcType="VARCHAR"/>
+        <result column="source_id" property="sourceId" jdbcType="DECIMAL"/>
+        <result column="source_type" property="sourceType" jdbcType="VARCHAR"/>
+        <result column="h_assign_level" property="hAssignLevel" jdbcType="VARCHAR"/>
+        <result column="h_assign_level_value" property="hAssignLevelValue" jdbcType="DECIMAL"/>
+        <result column="object_version_number" property="objectVersionNumber" jdbcType="DECIMAL"/>
+        <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="start_date_active" property="startDateActive" jdbcType="DATE"/>
+        <result column="end_date_active" property="endDateActive" jdbcType="DATE"/>
+    </resultMap>
+</mapper>

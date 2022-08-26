@@ -2,6 +2,8 @@ package org.hzero.service.api.controller.v1;
 
 import java.util.List;
 
+import io.choerodon.core.oauth.CustomUserDetails;
+import io.choerodon.core.oauth.DetailsHelper;
 import io.swagger.annotations.Api;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
@@ -40,9 +42,10 @@ public class PurchaseController extends BaseController {
     }
 
     @ApiOperation(value = "查询所有采购员")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/list")
-    public ResponseEntity<List<Purchase>> list() {
-        return purchaseService.list();
+    public ResponseEntity<List<Purchase>> list(@PathVariable Long organizationId) {
+        Long roleId = DetailsHelper.getUserDetails().getRoleId();
+        return purchaseService.list(organizationId, roleId);
     }
 }

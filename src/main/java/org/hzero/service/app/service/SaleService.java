@@ -20,5 +20,5 @@ public interface SaleService {
      * 查询所有销售员
      * @return
      */
-    ResponseEntity<List<Sale>> list();
+    ResponseEntity<List<Sale>> list(Long organizationId, Long roleId);
 }

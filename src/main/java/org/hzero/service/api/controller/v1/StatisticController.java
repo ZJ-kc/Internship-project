@@ -37,28 +37,28 @@ public class StatisticController {
     }
 
     @ApiOperation(value = "统计-查询采购、销售金额")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/money-board")
     public ResponseEntity<MoneyBoardDTO> getMoneyBoard() {
         return Results.success(purchaseAndSaleService.getMoneyBoard());
     }
 
     @ApiOperation(value = "查询近半年来采购销售情况")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/purchase-sale/state/list")
     public ResponseEntity<List<PurchaseAndSaleStateDTO>> listPurchaseSaleState() {
         return Results.success(purchaseAndSaleService.listPurchaseSaleState());
     }
 
     @ApiOperation(value = "本月明星销售成员")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/best-sale/list")
     public ResponseEntity<List<BestSaleDTO>> listBestSale() {
         return Results.success(purchaseAndSaleService.listBestSale());
     }
 
     @ApiOperation(value = "待办事项")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/backlog/list")
     public ResponseEntity<List<BackLogDTO>> listBacklog() {
         return Results.success(purchaseAndSaleService.listBacklog());

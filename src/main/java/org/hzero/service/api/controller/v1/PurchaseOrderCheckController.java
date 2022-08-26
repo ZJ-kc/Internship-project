@@ -42,7 +42,7 @@ public class PurchaseOrderCheckController {
     }
 
     @ApiOperation(value = "分页查询采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/paging")
     public ResponseEntity<Page<PurchaseOrder>> list(@PathVariable("organizationId") Long organizationId,
                                                     String keyword,
@@ -55,7 +55,7 @@ public class PurchaseOrderCheckController {
     }
 
     @ApiOperation(value = "通过id查询采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/{purchaseOrderId}")
     public ResponseEntity<PurchaseOrder> getPurchaseOrderByOrderId(@PathVariable("organizationId") Long organizationId,
                                                                    @PathVariable Long purchaseOrderId) {
@@ -63,7 +63,7 @@ public class PurchaseOrderCheckController {
     }
 
     @ApiOperation(value = "根据订单id查询订单详情数据")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/purchase-order-details/by-order-id")
     public ResponseEntity<List<PurchaseInfo>> getPurchaseOrderDetailsByOrderId(@PathVariable("organizationId") Long organizationId,
                                                                                @RequestParam Long purchaseOrderId) {
@@ -71,7 +71,7 @@ public class PurchaseOrderCheckController {
     }
 
     @ApiOperation(value = "审核通过")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/check-order/agree")
     public ResponseEntity<?> checkOrderAgree(@PathVariable("organizationId") Long organizationId,
                                               Long purchaseOrderId) {
@@ -79,7 +79,7 @@ public class PurchaseOrderCheckController {
     }
 
     @ApiOperation(value = "审核拒绝")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/check-order/reject")
     public ResponseEntity<?> checkOrderReject(@PathVariable("organizationId") Long organizationId,
                                              Long purchaseOrderId) {

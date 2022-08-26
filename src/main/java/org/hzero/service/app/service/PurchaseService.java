@@ -19,5 +19,5 @@ public interface PurchaseService {
      * 查询所有采购员
      * @return
      */
-    ResponseEntity<List<Purchase>> list();
+    ResponseEntity<List<Purchase>> list(Long organizationId, Long roleId);
 }

@@ -41,7 +41,7 @@ public class RepertoryController extends BaseController {
     }
 
     @ApiOperation(value = "分页查询库存信息")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/paging")
     public ResponseEntity<Page<Repertory>> list(@PathVariable("organizationId") Long organizationId,
                                                     RepertoryParam repertoryParam,

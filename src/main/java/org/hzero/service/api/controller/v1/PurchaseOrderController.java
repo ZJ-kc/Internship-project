@@ -56,7 +56,7 @@ public class PurchaseOrderController extends BaseController {
     }
 
     @ApiOperation(value = "分页查询采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/paging")
     public ResponseEntity<Page<PurchaseOrder>> list(@PathVariable("organizationId") Long organizationId,
                                                     String keyword,
@@ -69,7 +69,7 @@ public class PurchaseOrderController extends BaseController {
     }
 
     @ApiOperation(value = "通过id查询采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/{purchaseOrderId}")
     public ResponseEntity<PurchaseOrder> getPurchaseOrderByOrderId(@PathVariable("organizationId") Long organizationId,
                                                                    @PathVariable Long purchaseOrderId) {
@@ -77,7 +77,7 @@ public class PurchaseOrderController extends BaseController {
     }
 
     @ApiOperation(value = "保存采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PostMapping("/add")
     public ResponseEntity<PurchaseOrder> addPurchaseOrder(@PathVariable("organizationId") Long organizationId,
                                                           @RequestBody PurchaseOrder purchaseOrder) {
@@ -85,7 +85,7 @@ public class PurchaseOrderController extends BaseController {
     }
 
     @ApiOperation(value = "提交采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/update-order-state")
     public ResponseEntity<?> updateOrderState(@PathVariable("organizationId") Long organizationId,
                                               Long purchaseOrderId) {
@@ -93,7 +93,7 @@ public class PurchaseOrderController extends BaseController {
     }
 
     @ApiOperation(value = "删除采购订单")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @DeleteMapping("/{purchaseOrderId}")
     public ResponseEntity<?> deletePurchaseOrder(@PathVariable("organizationId") Long organizationId,
                                                  @PathVariable("purchaseOrderId") Long purchaseOrderId) {

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 import com.itextpdf.text.*;
@@ -13,6 +13,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import io.choerodon.mybatis.pagehelper.PageHelper;
+import org.hzero.boot.message.MessageClient;
+import org.hzero.boot.message.entity.Receiver;
 import org.hzero.core.base.BaseAppService;
 
 import org.hzero.core.util.Results;
@@ -25,6 +27,7 @@ import org.hzero.service.app.service.PurchaseInfoService;
 import org.hzero.service.app.service.PurchaseOrderService;
 import org.hzero.service.domain.entity.*;
 import org.hzero.service.domain.repository.*;
+import org.hzero.service.infra.constant.RoleCodeConstant;
 import org.hzero.service.infra.listener.PurchaseInfoExcelListener;
 import org.hzero.service.infra.listener.PurchaseOrderExcelListener;
 import org.hzero.service.infra.mapper.PurchaseOrderMapper;
@@ -59,6 +62,10 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
     private final SupplierRepository supplierRepository;
     private final StoreRepository storeRepository;
     private final PurchaseInfoService purchaseInfoService;
+    private final RoleRepository roleRepository;
+    private final MemberRoleRepository memberRoleRepository;
+    private final UserRepository userRepository;
+    private final MessageClient messageClient;
 
     @Autowired
     public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository,
@@ -69,7 +76,11 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
                                     PurchaseRepository purchaseRepository,
                                     SupplierRepository supplierRepository,
                                     StoreRepository storeRepository,
-                                    PurchaseInfoService purchaseInfoService) {
+                                    PurchaseInfoService purchaseInfoService,
+                                    RoleRepository roleRepository,
+                                    MemberRoleRepository memberRoleRepository,
+                                    UserRepository userRepository,
+                                    MessageClient messageClient) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.purchaseOrderMapper = purchaseOrderMapper;
         this.purchaseInfoRepository = purchaseInfoRepository;
@@ -78,6 +89,10 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
         this.supplierRepository = supplierRepository;
         this.storeRepository = storeRepository;
         this.purchaseInfoService = purchaseInfoService;
+        this.roleRepository = roleRepository;
+        this.memberRoleRepository = memberRoleRepository;
+        this.userRepository = userRepository;
+        this.messageClient = messageClient;
     }
 
     @Override
@@ -119,6 +134,32 @@ public class PurchaseOrderServiceImpl extends BaseAppService implements Purchase
 
         int count = purchaseOrderRepository.updateOptional(order, PurchaseOrder.FIELD_PURCHASE_ORDER_STATE);
         if(1 == count) {
+            // 发送提交信息
+            // 根据租户id和采购经理code查询对应的角色
+            Role purchaseManageRole = roleRepository.selectByCondition(
+                    Condition.builder(Role.class)
+                            .andWhere(
+                                    Sqls.custom()
+                                            .andEqualTo(Role.FIELD_H_TENANT_ID, organizationId)
+                                            .andEqualTo(Role.FIELD_CODE, RoleCodeConstant.ROLE_PURCHASE_MANAGE_CODE)
+                            )
+                            .build()
+            ).get(0);
+            // 根据采购管理员角色获取用户id
+            Long userId = memberRoleRepository.select(MemberRole.FIELD_ROLE_ID, purchaseManageRole.getId()).get(0).getMemberId();
+            User user = userRepository.selectByPrimaryKey(userId);
+
+            String serverCode= "PURCHASE";
+            // 消息模板编码
+            String messageTemplateCode="HFF_EMAIL_CODE";
+            // 指定消息接收人邮箱
+            Receiver receiver = new Receiver().setEmail(user.getEmail());
+            List<Receiver> receiverList = Collections.singletonList(receiver);
+            // 消息模板参数
+            Map<String, String> args = new HashMap<>(2);
+            args.put("param", "采购");
+            messageClient.sendEmail(organizationId, serverCode, messageTemplateCode, receiverList, args);
+
             return Results.success("提交成功");
         }
         return Results.error();

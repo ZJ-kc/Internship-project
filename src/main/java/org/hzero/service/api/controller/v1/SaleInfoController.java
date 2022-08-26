@@ -41,7 +41,7 @@ public class SaleInfoController extends BaseController {
     }
 
     @ApiOperation(value = "根据订单id查询订单详情数据")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/sale-order-details/by-order-id")
     public ResponseEntity<List<SaleInfo>> getSaleOrderDetailsByOrderId(@PathVariable("organizationId") Long organizationId,
                                                                        @RequestParam Long saleOrderId) {
@@ -49,7 +49,7 @@ public class SaleInfoController extends BaseController {
     }
 
     @ApiOperation(value = "物料发货/出库")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @PutMapping("/out-storage")
     public ResponseEntity<?> outStorage(@PathVariable("organizationId") Long organizationId,
                                         Long saleOrderId,Long[] saleInfoIds) {

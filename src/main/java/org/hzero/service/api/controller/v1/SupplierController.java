@@ -36,7 +36,7 @@ public class SupplierController extends BaseController {
     }
 
     @ApiOperation(value = "查询所有供应商")
-    @Permission(level = ResourceLevel.ORGANIZATION, permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @GetMapping("/list")
     public ResponseEntity<List<Supplier>> list() {
         return supplierService.list();

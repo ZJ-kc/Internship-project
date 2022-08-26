@@ -46,11 +46,10 @@
             repertory.store_id = store.store_id
         AND repertory.material_id = material.material_id
         <if test="null != repertoryParam.materialCode and '' != repertoryParam.materialCode">
-            AND material.material_code = #{repertoryParam.materialCode}
+            AND material.material_code LIKE CONCAT('%',#{repertoryParam.materialCode},'%')
         </if>
         <if test="null != repertoryParam.materialDescription and '' != repertoryParam.materialDescription">
-            <bind name="descriptionLike" value="'%'+repertoryParam.materialDescription+'%'" />
-            AND material.material_description LIKE #{descriptionLike}
+            AND material.material_description LIKE CONCAT('%',#{repertoryParam.materialDescription},'%')
         </if>
         <if test="null != repertoryParam.storeId and '' != repertoryParam.storeId">
             AND store.store_id = #{repertoryParam.storeId}
