@@ -135,22 +135,22 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
 
         int count = saleOrderRepository.updateOptional(order, SaleOrder.FIELD_SALE_ORDER_STATE);
         if(1 == count) {
-//            Sale sale = saleRepository.selectByPrimaryKey(order.getSaleId());
-//            User user=userRepository.selectByPrimaryKey((sale.getUserId()));
-//
-//            //：邮箱编码
-//            String serverCode="SALE";
-//
-//            //消息模板
-//            String messageTemplateCode="HFF_EMAIL_APPROVE";
-//
-//            //指定消息接收人邮箱
-//            Receiver receiver =new Receiver().setEmail(user.getEmail());
-//            List<Receiver> receiverList= Collections.singletonList(receiver);
-//            //消息模板参数
-//            Map<String,String> args=new HashMap<>(2);
-//            args.put("param","销售");
-//            messageClient.sendEmail(tenantId,serverCode,messageTemplateCode,receiverList,args);
+            Sale sale = saleRepository.selectByPrimaryKey(order.getSaleId());
+            User user = userRepository.selectByPrimaryKey((sale.getUserId()));
+
+            //：邮箱编码
+            String serverCode = "SALE";
+
+            //消息模板
+            String messageTemplateCode = "HFF_EMAIL_APPROVE";
+
+            //指定消息接收人邮箱
+            Receiver receiver = new Receiver().setEmail(user.getEmail());
+            List<Receiver> receiverList= Collections.singletonList(receiver);
+            //消息模板参数
+            Map<String,String> args = new HashMap<>(2);
+            args.put("param", "销售");
+            messageClient.sendEmail(tenantId, serverCode, messageTemplateCode, receiverList, args);
 
             return Results.success("success");
         }
@@ -158,7 +158,6 @@ public class SaleOrderCheckServiceImpl extends BaseAppService implements SaleOrd
     }
 
     /**
-     * TODO 待做：发送审核结果
      * 审核拒绝
      * @param tenantId
      * @param saleOrderId

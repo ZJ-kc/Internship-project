@@ -68,14 +68,13 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
     private final SaleInfoService saleInfoService;
     private final RoleRepository roleRepository;
     private final MemberRoleRepository memberRoleRepository;
-    private final UserRepository userRepositoryitory;
+    private final UserRepository userRepository;
     private final MessageClient messageClient;
 
     @Autowired
     public SaleOrderServiceImpl(SaleOrderRepository saleOrderRepository,
                                 SaleOrderMapper saleOrderMapper,
                                 SaleInfoRepository saleInfoRepository,
-                                RepertoryRepository repertoryRepository,
                                 MaterialRepository materialRepository,
                                 SaleRepository saleRepository,
                                 CompanyRepository companyRepository,
@@ -84,7 +83,7 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
                                 SaleInfoService saleInfoService,
                                 RoleRepository roleRepository,
                                 MemberRoleRepository memberRoleRepository,
-                                UserRepository userRepositoryitory, MessageClient messageClient) {
+                                UserRepository userRepository, MessageClient messageClient) {
         this.saleOrderRepository = saleOrderRepository;
         this.saleOrderMapper = saleOrderMapper;
         this.saleInfoRepository = saleInfoRepository;
@@ -96,7 +95,7 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
         this.saleInfoService = saleInfoService;
         this.roleRepository = roleRepository;
         this.memberRoleRepository = memberRoleRepository;
-        this.userRepositoryitory = userRepositoryitory;
+        this.userRepository = userRepository;
         this.messageClient = messageClient;
     }
 
@@ -149,32 +148,32 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
         if(1 == count) {
             //发送提交信息
             //根据租户id和销售经理code查询对应角色
-//            Role saleManageRole = roleRepository.selectByCondition(
-//                    Condition.builder(Role.class)
-//                            .andWhere(
-//                                    Sqls.custom()
-//                                            .andEqualTo(Role.FIELD_H_TENANT_ID,organizationId)
-//                                            .andEqualTo(Role.FIELD_CODE, RoleCodeConstant.ROLE_SALE_MANAGE_CODE)
-//                            )
-//                            .build()
-//            ).get(0);
-//            //根据销售管理员角色获取用户id
-//            Long userId = memberRoleRepository.select(MemberRole.FIELD_ROLE_ID,saleManageRole.getId()).get(0).getMemberId();
-//            User user=userRepositoryitory.selectByPrimaryKey(userId);
-//
-//            //邮箱编码
-//            String serverCode="SALE";
-//
-//            //消息模板编码
-//            String messageTemplateCode="HFF_EMAIL_CODE";
-//            //指定消息接收人邮箱
-//            Receiver receiver=new Receiver().setEmail(user.getEmail());
-//            List<Receiver> receiverList= Collections.singletonList(receiver);
-//
-//            //消息模板参数
-//            Map<String,String> args=new HashMap<>(2);
-//            args.put("param","销售");
-//            messageClient.sendEmail(organizationId,serverCode,messageTemplateCode,receiverList,args);
+            Role saleManageRole = roleRepository.selectByCondition(
+                    Condition.builder(Role.class)
+                            .andWhere(
+                                    Sqls.custom()
+                                            .andEqualTo(Role.FIELD_H_TENANT_ID,organizationId)
+                                            .andEqualTo(Role.FIELD_CODE, RoleCodeConstant.ROLE_SALE_MANAGE_CODE)
+                            )
+                            .build()
+            ).get(0);
+            //根据销售管理员角色获取用户id
+            Long userId = memberRoleRepository.select(MemberRole.FIELD_ROLE_ID,saleManageRole.getId()).get(0).getMemberId();
+            User user = userRepository.selectByPrimaryKey(userId);
+
+            //邮箱编码
+            String serverCode="SALE";
+
+            //消息模板编码
+            String messageTemplateCode="HFF_EMAIL_CODE";
+            //指定消息接收人邮箱
+            Receiver receiver=new Receiver().setEmail(user.getEmail());
+            List<Receiver> receiverList= Collections.singletonList(receiver);
+
+            //消息模板参数
+            Map<String,String> args=new HashMap<>(2);
+            args.put("param","销售");
+            messageClient.sendEmail(organizationId,serverCode,messageTemplateCode,receiverList,args);
 
 
             return Results.success("提交成功");

@@ -3,14 +3,12 @@ package org.hzero.service.app.service.impl;
 import io.choerodon.mybatis.pagehelper.PageHelper;
 import org.hzero.core.base.BaseAppService;
 
-import org.hzero.mybatis.helper.SecurityTokenHelper;
 import org.hzero.service.app.service.RepertoryService;
 import org.hzero.service.domain.entity.Repertory;
 import org.hzero.service.domain.repository.RepertoryRepository;
 import org.hzero.service.domain.vo.RepertoryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.choerodon.core.domain.Page;
 import io.choerodon.mybatis.pagehelper.domain.PageRequest;

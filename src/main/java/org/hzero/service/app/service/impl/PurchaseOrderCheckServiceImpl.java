@@ -70,7 +70,7 @@ public class PurchaseOrderCheckServiceImpl extends BaseAppService implements Pur
     }
 
     /**
-     * TODO 发送审核结果
+     *
      * @param tenantId
      * @param purchaseOrderId
      * @return

@@ -8,11 +8,9 @@ import org.hzero.core.util.Results;
 import org.hzero.service.app.service.PurchaseInfoService;
 import org.hzero.service.domain.entity.Material;
 import org.hzero.service.domain.entity.PurchaseInfo;
-import org.hzero.service.domain.entity.PurchaseOrder;
 import org.hzero.service.domain.repository.MaterialRepository;
 import org.hzero.service.domain.repository.PurchaseInfoRepository;
 import org.hzero.service.domain.repository.RepertoryRepository;
-import org.hzero.service.infra.mapper.PurchaseOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,15 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurchaseInfoServiceImpl extends BaseAppService implements PurchaseInfoService {
 
     private final PurchaseInfoRepository purchaseInfoRepository;
-    private final PurchaseOrderMapper purchaseOrderMapper;
     private final RepertoryRepository repertoryRepository;
     private final MaterialRepository materialRepository;
 
     @Autowired
     public PurchaseInfoServiceImpl(PurchaseInfoRepository purchaseInfoRepository,
-                                   PurchaseOrderMapper purchaseOrderMapper, RepertoryRepository repertoryRepository, MaterialRepository materialRepository) {
+                                   RepertoryRepository repertoryRepository,
+                                   MaterialRepository materialRepository) {
         this.purchaseInfoRepository = purchaseInfoRepository;
-        this.purchaseOrderMapper = purchaseOrderMapper;
         this.repertoryRepository = repertoryRepository;
         this.materialRepository = materialRepository;
     }
@@ -45,10 +42,6 @@ public class PurchaseInfoServiceImpl extends BaseAppService implements PurchaseI
         List<PurchaseInfo> purchaseInfoList = this.purchaseInfoRepository.getPurchaseOrderDetailsByOrderId(purchaseOrderId);
         for(PurchaseInfo purchaseInfo: purchaseInfoList) {
             Material material = materialRepository.selectByPrimaryKey(purchaseInfo.getMaterialId());
-//            purchaseInfo.setMaterialCode(material.getMaterialCode());
-//            purchaseInfo.setMaterialDescription(material.getMaterialDescription());
-//            purchaseInfo.setMaterialPrice(material.getMaterialPrice());
-//            purchaseInfo.setMaterialUnit(material.getMaterialUnit());
             purchaseInfo.setMaterial(material);
         }
         return Results.success(purchaseInfoList);

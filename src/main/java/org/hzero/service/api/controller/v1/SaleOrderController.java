@@ -12,12 +12,9 @@ import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hzero.export.annotation.ExcelExport;
 import org.hzero.export.vo.ExportParam;
-import org.hzero.service.api.dto.PurchaseOrderDTO;
 import org.hzero.service.api.dto.SaleOrderDTO;
 import org.hzero.service.app.service.SaleOrderService;
 import org.hzero.service.config.SwaggerApiConfig;
-import org.hzero.service.domain.entity.PurchaseOrder;
-import org.hzero.service.domain.entity.Sale;
 import org.hzero.service.domain.entity.SaleOrder;
 
 import org.dom4j.DocumentException;
