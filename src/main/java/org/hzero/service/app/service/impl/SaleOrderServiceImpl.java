@@ -417,4 +417,15 @@ public class SaleOrderServiceImpl extends BaseAppService implements SaleOrderSer
         }
         document.close();
     }
+
+    @Override
+    public String addOrUpdate(Long tenantId, Map<String, Object> requestData) {
+
+        Map<String,Object> userMap = new HashMap<>();
+
+        Object userObject = requestData.get("requestInfo");
+        System.out.printf("user:"+userObject);
+
+        return null;
+    }
 }

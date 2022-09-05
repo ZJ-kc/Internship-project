@@ -168,7 +168,7 @@ public class SaleOrderRepositoryImpl extends BaseRepositoryImpl<SaleOrder> imple
                 saleOrderDTO.setSaleOrderState("待审批");
             } else if(2 == state) {
                 saleOrderDTO.setSaleOrderState("审批通过");
-            }else if(3 == state) {
+            } else if(3 == state) {
                 saleOrderDTO.setSaleOrderState("审批拒绝");
             }
 

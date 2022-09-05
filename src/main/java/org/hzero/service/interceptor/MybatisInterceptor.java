@@ -59,7 +59,7 @@ public class MybatisInterceptor implements Interceptor {
         field.set(boundSql, enhanceSql);
 
         // 将拦截到的sql语句插入日志表中
-        logger.info("####({})######》语句被增强为#####》{}",sql, enhanceSql);
+        logger.info("############{} 语句被增强为\n{} ##############",sql, enhanceSql);
 
         return invocation.proceed();
     }
